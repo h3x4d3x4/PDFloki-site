@@ -1,0 +1,13 @@
+services:
+  pdfloki-web:
+    build: .
+    container_name: pdfloki-site
+    ports:
+      - "8089:80"
+    networks:
+      - pdfloki-network
+    restart: unless-stopped
+
+networks:
+  pdfloki-network:
+    driver: bridge

@@ -1,0 +1,2179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDFloki — PDF Management for macOS</title>
+  <meta name="description" content="A native macOS app to organise, inspect, and process your PDF files. Clean interface. Powerful tools. No subscription." />
+
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+
+  <meta property="og:title" content="PDFloki — PDF Management for macOS" />
+  <meta property="og:description" content="Native macOS app to organise, inspect, and batch-process your PDFs. 46+ tools, 100% local, no subscription." />
+  <meta property="og:image" content="icon.png" />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="PDFloki — PDF Management for macOS" />
+  <meta name="twitter:description" content="Native macOS app to organise, inspect, and batch-process your PDFs. 46+ tools, 100% local, no subscription." />
+  <meta name="twitter:image" content="icon.png" />
+
+  <meta name="theme-color" content="#f5f2ed" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "PDFloki",
+    "operatingSystem": "macOS",
+    "applicationCategory": "ProductivityApplication",
+    "description": "A native macOS app to organise, inspect, and process your PDF files.",
+    "offers": { "@type": "Offer", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Andrei", "url": "https://hexadexa.io" }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:       #e8763a;
+      --orange-dark:  #c9612a;
+      --orange-soft:  rgba(232,118,58,0.10);
+      --orange-glow:  rgba(232,118,58,0.22);
+      --teal:         #1d6875;
+      --teal-light:   #2dd4bf;
+      --teal-soft:    rgba(29,104,117,0.09);
+
+      --bg:           #f5f2ed;
+      --bg-card:      #ffffff;
+      --bg-nav:       rgba(245,242,237,0.82);
+
+      --text:         #18100e;
+      --text-2:       #473935;
+      --text-muted:   #756260;
+
+      --border:       rgba(0,0,0,0.07);
+      --border-card:  rgba(0,0,0,0.055);
+      --radius-card:  18px;
+      --shadow-sm:    0 1px 2px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.05);
+      --shadow-card:  0 1px 3px rgba(0,0,0,0.06), 0 8px 28px rgba(0,0,0,0.07);
+      --shadow-lift:  0 2px 8px rgba(0,0,0,0.07), 0 20px 48px rgba(0,0,0,0.10);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Subtle grain texture — like macOS surfaces */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.022;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      background: var(--bg-nav);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+
+    nav.scrolled {
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .nav-brand img {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+    }
+
+    .nav-brand span {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      padding: 5px 11px;
+      border-radius: 7px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-link:hover { color: var(--text); background: rgba(0,0,0,0.05); }
+
+    .nav-btn {
+      background: var(--orange);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      letter-spacing: -0.1px;
+      transition: background 0.15s, transform 0.1s;
+      box-shadow: 0 1px 4px rgba(232,118,58,0.30);
+    }
+    .nav-btn:hover { background: var(--orange-dark); transform: translateY(-1px); }
+
+    a:focus-visible, button:focus-visible, .nav-btn:focus-visible, .btn-primary:focus-visible {
+      outline: 2px solid var(--orange);
+      outline-offset: 2px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 56px 24px 48px;
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+      gap: 0;
+    }
+
+    .hero-content {
+      max-width: 580px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(ellipse at 50% 35%,
+        rgba(232,118,58,0.12) 0%,
+        rgba(45,212,191,0.08) 30%,
+        rgba(78,205,196,0.04) 50%,
+        transparent 65%);
+      pointer-events: none;
+    }
+
+    /* DMG-inspired scattered PDF page outlines + dot grid */
+    .hero-bg {
+      position: absolute;
+      inset: -80px -120px;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+      mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 70%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 70%, transparent 100%);
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.105) 1px, transparent 1px);
+      background-size: 20px 20px;
+      mask-image: radial-gradient(ellipse at 50% 45%, black 25%, transparent 65%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 45%, black 25%, transparent 65%);
+    }
+    .hero-page {
+      position: absolute;
+      width: 44px;
+      height: 56px;
+      border: 1.5px solid rgba(0,0,0,0.13);
+      border-radius: 3px;
+      background: rgba(255,255,255,0.47);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .hero-page::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      width: 12px;
+      height: 12px;
+      border-bottom-left-radius: 2px;
+      background: var(--bg);
+      border-left: 1.5px solid rgba(0,0,0,0.13);
+      border-bottom: 1.5px solid rgba(0,0,0,0.13);
+    }
+    .hero-page::after {
+      content: '';
+      position: absolute;
+      top: 16px; left: 7px; right: 7px;
+      height: 1.5px;
+      background: rgba(0,0,0,0.06);
+      box-shadow: 0 6px 0 rgba(0,0,0,0.06), 0 12px 0 rgba(0,0,0,0.05), 0 18px 0 rgba(0,0,0,0.04);
+    }
+
+    .hero-icon-wrap {
+      position: relative;
+      width: 120px;
+      margin-bottom: 24px;
+    }
+    .hero-icon-wrap::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(232,118,58,0.14) 0%, rgba(45,212,191,0.07) 30%, transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-icon {
+      width: 120px;
+      height: 120px;
+      border-radius: 28px;
+      display: block;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 6px 32px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.08);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .hero-icon:hover {
+      transform: rotate(-3deg) scale(1.05);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(29,104,117,0.16);
+    }
+    .hero-badge svg { width: 12px; height: 12px; }
+
+    .hero h1 {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(36px, 5.5vw, 56px);
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1.08;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero > .hero-content > p {
+      font-size: 17.5px;
+      color: var(--text-2);
+      max-width: 460px;
+      margin: 0 auto 24px;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 8px;
+    }
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .hero-stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    .hero-stat-label {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .hero-content { max-width: 100%; }
+      .hero-icon-wrap { width: 100px; margin-bottom: 18px; }
+      .hero-icon { width: 100px; height: 100px; border-radius: 24px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-value { font-size: 16px; }
+      .hero-bg { display: none; }
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--orange);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 13px 26px;
+      border-radius: 13px;
+      text-decoration: none;
+      letter-spacing: -0.1px;
+      box-shadow: 0 4px 20px var(--orange-glow), 0 1px 3px rgba(0,0,0,0.10);
+      transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
+    }
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--orange-glow), 0 2px 6px rgba(0,0,0,0.12);
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .hero-meta {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: center;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 0;
+      white-space: nowrap;
+    }
+    .hero-meta .dot { margin: 0 4px; opacity: 0.4; }
+
+    /* ─── APP WINDOW MOCKUP ─── */
+    .mockup-stage {
+      --w-teal: #2dd4bf;
+      background: linear-gradient(180deg, var(--bg) 0%, rgba(29,104,117,0.06) 50%, var(--bg) 100%);
+      padding: 0 0 72px;
+      position: relative;
+    }
+    .mockup-stage::before {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--orange), var(--teal));
+      margin: 0 auto 40px;
+      border-radius: 1px;
+    }
+
+    .mockup-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+    }
+
+    /* ─── SLIDER ─── */
+    .slider {
+      position: relative;
+      perspective: 1200px;
+    }
+    .slider-track {
+      display: flex;
+      overflow: hidden;
+    }
+    .slider-slide {
+      min-width: 100%;
+      transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .slider-slide img {
+      width: 100%;
+      display: block;
+      border-radius: 14px;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.18),
+        0 8px 32px rgba(0,0,0,0.18),
+        0 32px 80px rgba(0,0,0,0.22);
+    }
+
+    .slider-arrows {
+      position: absolute;
+      top: 50%;
+      left: -20px;
+      right: -20px;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .slider-arrow {
+      pointer-events: auto;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border-card);
+      background: var(--bg-card);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+      color: var(--text-2);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      backdrop-filter: saturate(180%) blur(12px);
+    }
+    .slider-arrow:hover {
+      transform: scale(1.08);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .slider-arrow:active {
+      transform: scale(0.95);
+    }
+    .slider-arrow.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+    .slider-arrow svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .slider-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      opacity: 0.25;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s, background 0.2s;
+      border: none;
+      padding: 0;
+    }
+    .slider-dot:hover { opacity: 0.45; }
+    .slider-dot.active {
+      opacity: 1;
+      background: var(--teal);
+      transform: scale(1.25);
+    }
+
+    @media (max-width: 720px) {
+      .mockup-wrap { padding: 0 16px; }
+      .slider-arrows { left: -8px; right: -8px; }
+      .slider-arrow { width: 34px; height: 34px; }
+      .slider-arrow svg { width: 15px; height: 15px; }
+    }
+
+    .app-window {
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 8px 32px rgba(0,0,0,0.18),
+        0 32px 80px rgba(0,0,0,0.22);
+      background: #1c1c1e;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      transform: rotateX(2deg);
+      transform-origin: center bottom;
+      transition: transform 0.4s ease;
+    }
+    .app-window:hover {
+      transform: rotateX(0deg);
+    }
+
+    /* Title bar */
+    .w-titlebar {
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 40px;
+      background: #2a2a2c;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .traffic-lights {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .tl { width: 12px; height: 12px; border-radius: 50%; }
+    .tl-close { background: #ff5f57; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.2); }
+    .tl-min   { background: #febc2e; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.2); }
+    .tl-max   { background: #28c840; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.2); }
+
+    .w-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.42);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: -0.1px;
+      white-space: nowrap;
+    }
+
+    .w-titlebar-right {
+      margin-left: auto;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    /* Fake view mode buttons */
+    .w-view-btn {
+      width: 22px;
+      height: 16px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+    .w-view-btn span {
+      display: block;
+      background: rgba(255,255,255,0.3);
+      border-radius: 1px;
+    }
+    .w-view-btn.list span { width: 8px; height: 1.5px; }
+    .w-view-btn.grid span { width: 4px; height: 4px; border-radius: 1px; }
+    .w-search-pill {
+      height: 18px;
+      width: 80px;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.09);
+      display: flex;
+      align-items: center;
+      padding: 0 6px;
+      gap: 4px;
+    }
+    .w-search-pill .w-search-icon {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.25);
+      flex-shrink: 0;
+    }
+    .w-search-pill .w-search-line {
+      flex: 1;
+      height: 1.5px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 1px;
+    }
+
+    /* Body: sidebar + main + inspector */
+    .w-body {
+      display: flex;
+      height: 400px;
+    }
+
+    /* Sidebar */
+    .w-sidebar {
+      width: 200px;
+      flex-shrink: 0;
+      background: #161618;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      padding: 10px 0;
+      overflow: hidden;
+    }
+
+    .w-sidebar-label {
+      padding: 0 12px 5px;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* Sidebar nav items (folders) */
+    .w-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 12px;
+      color: rgba(255,255,255,0.45);
+      font-size: 11.5px;
+    }
+    .w-nav-item.active {
+      background: rgba(45,212,191,0.12);
+      color: rgba(255,255,255,0.82);
+    }
+    .w-nav-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+    }
+    .w-nav-item.active .w-nav-dot { background: #2dd4bf; }
+    .w-nav-count {
+      margin-left: auto;
+      font-size: 10px;
+      color: rgba(255,255,255,0.2);
+    }
+
+    .w-sidebar-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 6px 0;
+    }
+
+    /* Main detail area */
+    .w-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    /* Filter bar — mirrors SearchFilterBar */
+    .w-filterbar {
+      height: 38px;
+      background: #222224;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .w-search {
+      height: 22px;
+      width: 120px;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 7px;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .w-search svg { opacity: 0.3; flex-shrink: 0; }
+    .w-search-text {
+      height: 1.5px;
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+      border-radius: 1px;
+    }
+
+    .w-chips { display: flex; gap: 5px; align-items: center; overflow: hidden; min-width: 0; flex: 1; }
+    .w-chip {
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.35);
+      white-space: nowrap;
+    }
+    .w-chip.active {
+      background: rgba(45,212,191,0.15);
+      border-color: rgba(45,212,191,0.3);
+      color: #2dd4bf;
+    }
+    .w-chip.orange {
+      background: rgba(232,118,58,0.12);
+      border-color: rgba(232,118,58,0.25);
+      color: #e8763a;
+    }
+    .w-chip-div {
+      width: 1px; height: 12px;
+      background: rgba(255,255,255,0.1);
+      flex-shrink: 0;
+    }
+
+    /* File list rows — mirrors CompactListRow (height: 44px) */
+    .w-file-list { flex: 1; overflow: hidden; }
+
+    .w-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 12px;
+      height: 44px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    @keyframes rowGlow {
+      0%, 100% { background: rgba(45,212,191,0.09); }
+      50% { background: rgba(45,212,191,0.14); }
+    }
+    .w-row.selected { animation: rowGlow 4s ease-in-out infinite; }
+
+    /* Status dot (metadata status) */
+    .w-status {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    @keyframes breathe {
+      0%, 100% { box-shadow: 0 0 4px currentColor; }
+      50% { box-shadow: 0 0 8px currentColor, 0 0 2px currentColor; }
+    }
+    .w-status.ok     { background: #30d158; color: #30d158; box-shadow: 0 0 4px #30d158; animation: breathe 3s ease-in-out infinite; }
+    .w-status.warn   { background: #ffd60a; color: #ffd60a; box-shadow: 0 0 4px #ffd60a; animation: breathe 3s 0.5s ease-in-out infinite; }
+    .w-status.error  { background: #ff453a; color: #ff453a; box-shadow: 0 0 4px #ff453a; animation: breathe 3s 1s ease-in-out infinite; }
+    .w-status.muted  { background: rgba(255,255,255,0.15); box-shadow: none; }
+
+    /* doc.fill SF symbol — drawn as a simple shape */
+    .w-doc-icon {
+      width: 18px;
+      height: 22px;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .w-doc-icon::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #2dd4bf;
+      border-radius: 3px;
+      clip-path: polygon(0 0, 65% 0, 100% 28%, 100% 100%, 0 100%);
+      opacity: 0.85;
+    }
+    .w-doc-icon::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 35%; height: 28%;
+      background: rgba(0,0,0,0.25);
+      border-bottom-left-radius: 2px;
+    }
+
+    .w-row-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .w-row-name {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.82);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .w-row.selected .w-row-name { color: rgba(255,255,255,0.95); }
+    .w-row-meta {
+      font-size: 10.5px;
+      color: rgba(255,255,255,0.28);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .w-row-date {
+      font-size: 10px;
+      color: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+
+    /* Inspector panel — mirrors InspectorPanel */
+    .w-inspector {
+      width: 200px;
+      flex-shrink: 0;
+      background: #202022;
+      border-left: 1px solid rgba(255,255,255,0.06);
+      padding: 14px 13px;
+      overflow: hidden;
+    }
+
+    .w-inspector-title {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.18);
+      margin-bottom: 12px;
+    }
+
+    .w-prop { margin-bottom: 10px; }
+    .w-prop-label {
+      font-size: 9.5px;
+      color: rgba(255,255,255,0.28);
+      margin-bottom: 2px;
+      letter-spacing: 0.1px;
+    }
+    .w-prop-value {
+      font-size: 11.5px;
+      color: rgba(255,255,255,0.72);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .w-prop-value.teal { color: #2dd4bf; }
+
+    .w-inspector-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 10px 0;
+    }
+
+    .w-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(45,212,191,0.1);
+      border: 1px solid rgba(45,212,191,0.2);
+      color: #2dd4bf;
+      font-size: 9.5px;
+      margin-top: 3px;
+    }
+    .w-tag::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #2dd4bf;
+      opacity: 0.7;
+    }
+
+    /* Status bar at bottom */
+    .w-statusbar {
+      height: 28px;
+      background: #1a1a1c;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .w-statusbar span {
+      font-size: 10px;
+      color: rgba(255,255,255,0.22);
+    }
+    .w-statusbar span.teal { color: rgba(45,212,191,0.6); }
+
+    /* ─── FEATURES ─── */
+    .features {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px 96px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 10px;
+    }
+
+    .section-header h2 {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--text);
+      line-height: 1.15;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    @media (min-width: 960px) {
+      .features-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+
+    .feature-card {
+      background: linear-gradient(180deg, #fefcf8 0%, #faf7f2 100%);
+      border: 1px solid rgba(232,118,58,0.08);
+      border-radius: var(--radius-card);
+      padding: 24px 22px 22px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      will-change: transform;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+    .feature-card:nth-child(1)::before { background: #1d6875; }
+    .feature-card:nth-child(2)::before { background: #e8763a; }
+    .feature-card:nth-child(3)::before { background: #3b82f6; }
+    .feature-card:nth-child(4)::before { background: #7c3aed; }
+    .feature-card:nth-child(5)::before { background: #ca8a04; }
+    .feature-card:nth-child(6)::before { background: #16a34a; }
+    @media (hover: hover) {
+      .feature-card:hover::before { opacity: 1; }
+    }
+    @media (hover: hover) {
+      .feature-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lift);
+      }
+    }
+
+    .feature-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .feature-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--teal-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .feature-icon svg {
+      width: 17px;
+      height: 17px;
+      color: var(--teal);
+    }
+
+    .feature-card:nth-child(1) .feature-icon { background: rgba(29,104,117,0.09); }
+    .feature-card:nth-child(1) .feature-icon svg { color: #1d6875; }
+    .feature-card:nth-child(2) .feature-icon { background: rgba(232,118,58,0.09); }
+    .feature-card:nth-child(2) .feature-icon svg { color: #e8763a; }
+    .feature-card:nth-child(3) .feature-icon { background: rgba(59,130,246,0.09); }
+    .feature-card:nth-child(3) .feature-icon svg { color: #3b82f6; }
+    .feature-card:nth-child(4) .feature-icon { background: rgba(124,58,237,0.09); }
+    .feature-card:nth-child(4) .feature-icon svg { color: #7c3aed; }
+    .feature-card:nth-child(5) .feature-icon { background: rgba(234,179,8,0.09); }
+    .feature-card:nth-child(5) .feature-icon svg { color: #ca8a04; }
+    .feature-card:nth-child(6) .feature-icon { background: rgba(22,163,74,0.09); }
+    .feature-card:nth-child(6) .feature-icon svg { color: #16a34a; }
+
+    /* macOS keyboard shortcut pill */
+    .shortcut {
+      display: inline-flex;
+      align-items: center;
+      gap: 1px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      background: rgba(0,0,0,0.04);
+      border: 1px solid rgba(0,0,0,0.08);
+      color: var(--text-muted);
+      font-size: 11.5px;
+      letter-spacing: 0.1px;
+      line-height: 1;
+      white-space: nowrap;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    }
+
+    .feature-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+      letter-spacing: -0.1px;
+    }
+    .feature-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.58;
+    }
+
+    /* ─── REQUIREMENTS ─── */
+    .requirements {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .requirements-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .req-item {
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+    }
+    .req-item + .req-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 28px;
+      width: 1px;
+      background: var(--border);
+    }
+    .req-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+    .req-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-it-works {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(16.66% + 16px);
+      right: calc(16.66% + 16px);
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--teal), var(--orange));
+      opacity: 0.35;
+      z-index: 1;
+    }
+    .step {
+      text-align: center;
+      position: relative;
+    }
+    .step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 2;
+    }
+    .step:nth-child(1) .step-number { background: #d4e8eb; }
+    .step:nth-child(2) .step-number { background: #f5dfd0; }
+    .step:nth-child(3) .step-number { background: #d2eadb; }
+    .step-number svg { width: 24px; height: 24px; }
+    .step:nth-child(1) .step-number svg { color: #145660; }
+    .step:nth-child(2) .step-number svg { color: #b85a28; }
+    .step:nth-child(3) .step-number svg { color: #117a34; }
+    .step h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: -0.1px;
+    }
+    .step p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+      max-width: 220px;
+      margin: 0 auto;
+    }
+    @media (max-width: 600px) {
+      .steps { grid-template-columns: 1fr; gap: 28px; }
+      .steps::before { display: none; }
+    }
+
+    /* ─── CREDIBILITY STRIP ─── */
+    .credibility {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .cred-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.1px;
+    }
+    .cred-item svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0.55;
+    }
+    .cred-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      opacity: 0.3;
+    }
+
+    /* ─── CTA ─── */
+    .cta-wrap {
+      position: relative;
+      margin-top: 20px;
+    }
+    .cta-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--orange), var(--teal));
+      border-radius: 1px;
+    }
+    .cta {
+      text-align: center;
+      padding: 88px 24px;
+      max-width: 520px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .cta h2 {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(26px, 4.5vw, 40px);
+      font-weight: 700;
+      letter-spacing: -1.2px;
+      line-height: 1.1;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .cta p {
+      color: var(--text-2);
+      font-size: 15.5px;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 0;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 40px 32px;
+    }
+    .footer-brand-col {}
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .footer-brand img {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+    }
+    .footer-brand span {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.2px;
+    }
+    .footer-tagline {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .footer-tagline a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 2px; }
+    .footer-tagline a:hover { color: var(--text); }
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .footer-col-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .footer-col a, .footer-col span {
+      font-size: 13px;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .footer-bottom p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+    .footer-bottom a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-bottom a:hover { color: var(--text); }
+
+    /* ─── SCROLL ANIMATIONS ─── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero { animation: fadeInUp 0.7s ease-out both; }
+    .mockup-stage { animation: fadeInUp 0.7s 0.15s ease-out both; }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── KNOTWORK DIVIDER (Norse identity) ─── */
+    .norse-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      max-width: 200px;
+    }
+    .norse-divider::before,
+    .norse-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+    .norse-divider svg {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+      opacity: 0.35;
+      flex-shrink: 0;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 820px) {
+      .w-inspector { display: none; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 0 16px; }
+      .nav-btn { display: none; }
+      .features-grid { grid-template-columns: 1fr; }
+      .w-sidebar { display: none; }
+      .footer-top { grid-template-columns: 1fr; gap: 24px; padding: 32px 20px 24px; text-align: center; }
+      .footer-brand { justify-content: center; }
+      .footer-col { align-items: center; }
+      .footer-bottom { flex-direction: column; align-items: center; gap: 4px; padding: 16px 20px; }
+      .requirements-inner { grid-template-columns: repeat(2, 1fr); gap: 20px 0; }
+      .req-item { padding: 8px 16px; }
+      .req-item:nth-child(odd)::before { display: none; }
+      .req-item:nth-child(3)::before { display: none; }
+      .hero { padding: 36px 16px 28px; }
+      .hero h1 { font-size: clamp(28px, 8vw, 36px); letter-spacing: -1.2px; }
+      .hero > .hero-content > p { font-size: 15px; }
+      .hero-stats { gap: 14px; }
+      .hero-stat-value { font-size: 14px; }
+      .hero-stat-label { font-size: 9.5px; }
+      .cta { padding: 56px 20px; }
+      .cta h2 { font-size: clamp(24px, 7vw, 32px); }
+      .hero-icon-wrap::after { width: 220px; height: 220px; }
+      .hero-meta { font-size: 10.5px; }
+      .hero-meta .dot { margin: 0 3px; }
+      .mockup-stage { padding-bottom: 48px; }
+      .mockup-wrap { padding: 0 12px; }
+      .slider-arrows { left: -4px; right: -4px; }
+      .slider-arrow { width: 30px; height: 30px; }
+      .slider-arrow svg { width: 14px; height: 14px; }
+      .how-it-works { padding-bottom: 48px; }
+      .credibility { gap: 12px 16px; padding: 16px 16px; }
+      .cred-item { font-size: 11px; }
+      .cred-dot { display: none; }
+      .section-header { margin-bottom: 32px; }
+      .features { padding-bottom: 56px; }
+      .btn-primary { font-size: 14px; padding: 12px 22px; }
+    }
+    @media (max-width: 400px) {
+      .requirements-inner { grid-template-columns: 1fr; }
+      .req-item + .req-item::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <a class="nav-brand" href="#">
+      <img src="icon.png" alt="PDFloki" />
+      <span>PDFloki</span>
+    </a>
+    <div class="nav-right">
+      <a class="nav-link" href="https://github.com/h3x4d3x4/PDFloki">GitHub</a>
+      <a class="nav-link" href="privacy.html">Privacy</a>
+      <a class="nav-btn" href="#">Download</a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-page" style="top:8%;left:6%;transform:rotate(-15deg);opacity:0.85"></div>
+      <div class="hero-page" style="top:4%;right:10%;transform:rotate(12deg);opacity:0.8"></div>
+      <div class="hero-page" style="bottom:14%;left:4%;transform:rotate(8deg);opacity:0.65"></div>
+      <div class="hero-page" style="bottom:8%;right:6%;transform:rotate(-20deg);opacity:0.7"></div>
+      <div class="hero-page" style="top:38%;left:1%;transform:rotate(-6deg);opacity:0.5"></div>
+      <div class="hero-page" style="top:28%;right:2%;transform:rotate(22deg);opacity:0.55"></div>
+      <div class="hero-page" style="top:62%;right:12%;transform:rotate(-10deg);opacity:0.4"></div>
+      <div class="hero-page" style="top:52%;left:10%;transform:rotate(18deg);opacity:0.4"></div>
+    </div>
+    <div class="hero-icon-wrap"><img class="hero-icon" src="icon.png" alt="PDFloki app icon" /></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+        Built for macOS
+      </div>
+
+      <h1>PDFloki.<br>Tame your PDFs.<br><em>For good.</em></h1>
+      <p>A native macOS app to organise, inspect, and batch-process your entire PDF library — no cloud, no bloat, no subscription.</p>
+
+      <div class="hero-actions">
+        <a class="btn-primary" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download for Mac
+        </a>
+        <p class="hero-meta">
+          macOS 14+
+          <span class="dot">·</span>
+          Apple Silicon &amp; Intel
+        </p>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-value">46+</span>
+          <span class="hero-stat-label">Tools</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">100%</span>
+          <span class="hero-stat-label">Local</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">Pay Once</span>
+          <span class="hero-stat-label">Own Forever</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="mockup-stage">
+  <div class="mockup-wrap">
+    <div class="slider">
+    <div class="slider-track">
+
+    <!-- Slide 1: App mockup -->
+    <div class="slider-slide">
+    <div class="app-window">
+
+      <!-- Title bar -->
+      <div class="w-titlebar">
+        <div class="traffic-lights">
+          <span class="tl tl-close"></span>
+          <span class="tl tl-min"></span>
+          <span class="tl tl-max"></span>
+        </div>
+        <span class="w-title">PDFloki — Documents</span>
+        <div class="w-titlebar-right">
+          <div class="w-view-btn list">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="w-search-pill">
+            <span class="w-search-icon"></span>
+            <span class="w-search-line"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="w-body">
+
+        <!-- Sidebar: folder navigation -->
+        <div class="w-sidebar">
+          <div class="w-sidebar-label">Folders</div>
+
+          <div class="w-nav-item active">
+            <span class="w-nav-dot"></span>
+            Documents
+            <span class="w-nav-count">12</span>
+          </div>
+          <div class="w-nav-item">
+            <span class="w-nav-dot"></span>
+            Invoices
+            <span class="w-nav-count">34</span>
+          </div>
+          <div class="w-nav-item">
+            <span class="w-nav-dot"></span>
+            Research
+            <span class="w-nav-count">8</span>
+          </div>
+          <div class="w-nav-item">
+            <span class="w-nav-dot"></span>
+            Archive
+            <span class="w-nav-count">91</span>
+          </div>
+
+          <div class="w-sidebar-divider"></div>
+          <div class="w-sidebar-label">Quick Access</div>
+
+          <div class="w-nav-item">
+            <span class="w-nav-dot"></span>
+            Favourites
+          </div>
+          <div class="w-nav-item">
+            <span class="w-nav-dot"></span>
+            Recent
+          </div>
+        </div>
+
+        <!-- Main: filter bar + file list -->
+        <div class="w-main">
+
+          <!-- SearchFilterBar -->
+          <div class="w-filterbar">
+            <div class="w-search">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span class="w-search-text"></span>
+            </div>
+            <div class="w-chips">
+              <span class="w-chip active">All</span>
+              <span class="w-chip">Favourites</span>
+              <span class="w-chip-div"></span>
+              <span class="w-chip" style="color:#30d158;border-color:rgba(48,209,88,0.25);background:rgba(48,209,88,0.08)">Title OK</span>
+              <span class="w-chip orange">Mismatched</span>
+              <span class="w-chip-div"></span>
+              <span class="w-chip">Has Metadata</span>
+            </div>
+          </div>
+
+          <!-- File list — CompactListRow style, height 44px each -->
+          <div class="w-file-list">
+
+            <div class="w-row selected">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info">
+                <span class="w-row-name">Annual Report 2024.pdf</span>
+                <span class="w-row-meta">4.2 MB · 48 pg · Andrei P.</span>
+              </div>
+              <span class="w-row-date">Today</span>
+            </div>
+
+            <div class="w-row">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info">
+                <span class="w-row-name">Invoice_March_2025.pdf</span>
+                <span class="w-row-meta">180 KB · 2 pg · Acme Corp</span>
+              </div>
+              <span class="w-row-date">Mar 18</span>
+            </div>
+
+            <div class="w-row">
+              <span class="w-status warn"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info">
+                <span class="w-row-name">Research Paper Draft.pdf</span>
+                <span class="w-row-meta">2.8 MB · 24 pg</span>
+              </div>
+              <span class="w-row-date">Mar 12</span>
+            </div>
+
+            <div class="w-row">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info">
+                <span class="w-row-name">Contract_v3_signed.pdf</span>
+                <span class="w-row-meta">640 KB · 12 pg · Legal Dept</span>
+              </div>
+              <span class="w-row-date">Feb 28</span>
+            </div>
+
+            <div class="w-row">
+              <span class="w-status error"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info">
+                <span class="w-row-name">Slides_Q1_Review.pdf</span>
+                <span class="w-row-meta">8.1 MB · 62 pg</span>
+              </div>
+              <span class="w-row-date">Feb 14</span>
+            </div>
+
+            <div class="w-row">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info">
+                <span class="w-row-name">User Manual v2.pdf</span>
+                <span class="w-row-meta">1.1 MB · 38 pg · Tech Team</span>
+              </div>
+              <span class="w-row-date">Jan 30</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Inspector panel -->
+        <div class="w-inspector">
+          <div class="w-inspector-title">Inspector</div>
+
+          <div class="w-prop">
+            <div class="w-prop-label">Title</div>
+            <div class="w-prop-value">Annual Report 2024</div>
+          </div>
+          <div class="w-prop">
+            <div class="w-prop-label">Author</div>
+            <div class="w-prop-value">Andrei P.</div>
+          </div>
+          <div class="w-prop">
+            <div class="w-prop-label">Pages</div>
+            <div class="w-prop-value">48</div>
+          </div>
+          <div class="w-prop">
+            <div class="w-prop-label">File Size</div>
+            <div class="w-prop-value teal">4.2 MB</div>
+          </div>
+          <div class="w-prop">
+            <div class="w-prop-label">Modified</div>
+            <div class="w-prop-value">Today, 09:14</div>
+          </div>
+
+          <div class="w-inspector-divider"></div>
+
+          <div class="w-prop">
+            <div class="w-prop-label">Metadata</div>
+            <div class="w-tag">Title OK</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Status bar -->
+      <div class="w-statusbar">
+        <span>12 files</span>
+        <span>·</span>
+        <span class="teal">1 selected</span>
+        <span>·</span>
+        <span>Total 42.3 MB</span>
+      </div>
+
+    </div>
+    </div><!-- /slider-slide 1 -->
+
+    <!-- Slide 2: Metadata Editor view -->
+    <div class="slider-slide">
+    <div class="app-window">
+      <div class="w-titlebar">
+        <div class="traffic-lights">
+          <span class="tl tl-close"></span>
+          <span class="tl tl-min"></span>
+          <span class="tl tl-max"></span>
+        </div>
+        <span class="w-title">PDFloki — Metadata Editor</span>
+        <div class="w-titlebar-right">
+          <div class="w-view-btn list"><span></span><span></span><span></span></div>
+          <div class="w-search-pill"><span class="w-search-icon"></span><span class="w-search-line"></span></div>
+        </div>
+      </div>
+      <div class="w-body">
+        <div class="w-sidebar">
+          <div class="w-sidebar-label">Folders</div>
+          <div class="w-nav-item"><span class="w-nav-dot"></span>Documents<span class="w-nav-count">12</span></div>
+          <div class="w-nav-item active"><span class="w-nav-dot"></span>Invoices<span class="w-nav-count">34</span></div>
+          <div class="w-nav-item"><span class="w-nav-dot"></span>Research<span class="w-nav-count">8</span></div>
+          <div class="w-nav-item"><span class="w-nav-dot"></span>Archive<span class="w-nav-count">91</span></div>
+          <div class="w-sidebar-divider"></div>
+          <div class="w-sidebar-label">Quick Access</div>
+          <div class="w-nav-item"><span class="w-nav-dot"></span>Favourites</div>
+          <div class="w-nav-item"><span class="w-nav-dot"></span>Recent</div>
+        </div>
+        <div class="w-main">
+          <div class="w-filterbar">
+            <div class="w-search">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span class="w-search-text"></span>
+            </div>
+            <div class="w-chips">
+              <span class="w-chip">All</span>
+              <span class="w-chip active">Favourites</span>
+              <span class="w-chip-div"></span>
+              <span class="w-chip" style="color:#30d158;border-color:rgba(48,209,88,0.25);background:rgba(48,209,88,0.08)">Title OK</span>
+              <span class="w-chip orange">Mismatched</span>
+            </div>
+          </div>
+          <div class="w-file-list">
+            <div class="w-row selected">
+              <span class="w-status warn"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Invoice_Jan_2025.pdf</span><span class="w-row-meta">92 KB · 1 pg</span></div>
+              <span class="w-row-date">Jan 15</span>
+            </div>
+            <div class="w-row selected">
+              <span class="w-status warn"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Invoice_Feb_2025.pdf</span><span class="w-row-meta">104 KB · 2 pg</span></div>
+              <span class="w-row-date">Feb 12</span>
+            </div>
+            <div class="w-row selected">
+              <span class="w-status warn"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Invoice_Mar_2025.pdf</span><span class="w-row-meta">88 KB · 1 pg</span></div>
+              <span class="w-row-date">Mar 18</span>
+            </div>
+            <div class="w-row">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Invoice_Apr_2025.pdf</span><span class="w-row-meta">112 KB · 2 pg · Acme Corp</span></div>
+              <span class="w-row-date">Apr 01</span>
+            </div>
+            <div class="w-row">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Invoice_May_2025.pdf</span><span class="w-row-meta">96 KB · 1 pg · Acme Corp</span></div>
+              <span class="w-row-date">May 05</span>
+            </div>
+            <div class="w-row">
+              <span class="w-status muted"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Receipt_Parking.pdf</span><span class="w-row-meta">48 KB · 1 pg</span></div>
+              <span class="w-row-date">May 20</span>
+            </div>
+          </div>
+        </div>
+        <div class="w-inspector">
+          <div class="w-inspector-title">Batch Edit — 3 files</div>
+          <div class="w-prop"><div class="w-prop-label">Set Author</div><div class="w-prop-value teal">Acme Corp</div></div>
+          <div class="w-prop"><div class="w-prop-label">Set Subject</div><div class="w-prop-value teal">Invoice</div></div>
+          <div class="w-prop"><div class="w-prop-label">Keywords</div><div class="w-prop-value">finance, 2025</div></div>
+          <div class="w-inspector-divider"></div>
+          <div class="w-prop"><div class="w-prop-label">Status</div><div class="w-tag" style="background:rgba(232,118,58,0.1);border-color:rgba(232,118,58,0.2);color:#e8763a">3 Missing Author</div></div>
+        </div>
+      </div>
+      <div class="w-statusbar">
+        <span>34 files</span><span>·</span><span class="teal">3 selected</span><span>·</span><span>Batch edit ready</span>
+      </div>
+    </div>
+    </div>
+
+    <!-- Slide 3: Compress view -->
+    <div class="slider-slide">
+    <div class="app-window">
+      <div class="w-titlebar">
+        <div class="traffic-lights">
+          <span class="tl tl-close"></span>
+          <span class="tl tl-min"></span>
+          <span class="tl tl-max"></span>
+        </div>
+        <span class="w-title">PDFloki — Compress</span>
+        <div class="w-titlebar-right">
+          <div class="w-view-btn list"><span></span><span></span><span></span></div>
+          <div class="w-search-pill"><span class="w-search-icon"></span><span class="w-search-line"></span></div>
+        </div>
+      </div>
+      <div class="w-body">
+        <div class="w-sidebar">
+          <div class="w-sidebar-label">Folders</div>
+          <div class="w-nav-item"><span class="w-nav-dot"></span>Documents<span class="w-nav-count">12</span></div>
+          <div class="w-nav-item"><span class="w-nav-dot"></span>Invoices<span class="w-nav-count">34</span></div>
+          <div class="w-nav-item active"><span class="w-nav-dot"></span>Research<span class="w-nav-count">8</span></div>
+          <div class="w-nav-item"><span class="w-nav-dot"></span>Archive<span class="w-nav-count">91</span></div>
+          <div class="w-sidebar-divider"></div>
+          <div class="w-sidebar-label">Quick Access</div>
+          <div class="w-nav-item"><span class="w-nav-dot"></span>Favourites</div>
+          <div class="w-nav-item"><span class="w-nav-dot"></span>Recent</div>
+        </div>
+        <div class="w-main">
+          <div class="w-filterbar">
+            <div class="w-search">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span class="w-search-text"></span>
+            </div>
+            <div class="w-chips">
+              <span class="w-chip active">All</span>
+              <span class="w-chip">Favourites</span>
+              <span class="w-chip-div"></span>
+              <span class="w-chip" style="color:#30d158;border-color:rgba(48,209,88,0.25);background:rgba(48,209,88,0.08)">Title OK</span>
+            </div>
+          </div>
+          <div class="w-file-list">
+            <div class="w-row selected">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Thesis_Final_Draft.pdf</span><span class="w-row-meta">28.4 MB · 186 pg · Dr. Kim</span></div>
+              <span class="w-row-date">Today</span>
+            </div>
+            <div class="w-row selected">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Survey_Results_2025.pdf</span><span class="w-row-meta">14.2 MB · 94 pg</span></div>
+              <span class="w-row-date">Mar 20</span>
+            </div>
+            <div class="w-row selected">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Lab_Report_Q1.pdf</span><span class="w-row-meta">9.6 MB · 42 pg · Lab Team</span></div>
+              <span class="w-row-date">Mar 08</span>
+            </div>
+            <div class="w-row">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Literature_Review.pdf</span><span class="w-row-meta">3.1 MB · 28 pg</span></div>
+              <span class="w-row-date">Feb 22</span>
+            </div>
+            <div class="w-row">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Conference_Slides.pdf</span><span class="w-row-meta">18.7 MB · 64 pg</span></div>
+              <span class="w-row-date">Feb 10</span>
+            </div>
+            <div class="w-row">
+              <span class="w-status ok"></span>
+              <span class="w-doc-icon"></span>
+              <div class="w-row-info"><span class="w-row-name">Data_Appendix.pdf</span><span class="w-row-meta">6.3 MB · 120 pg</span></div>
+              <span class="w-row-date">Jan 18</span>
+            </div>
+          </div>
+        </div>
+        <div class="w-inspector">
+          <div class="w-inspector-title">Compress — 3 files</div>
+          <div class="w-prop"><div class="w-prop-label">Preset</div><div class="w-prop-value teal">Balanced</div></div>
+          <div class="w-prop"><div class="w-prop-label">Original Size</div><div class="w-prop-value">52.2 MB</div></div>
+          <div class="w-prop"><div class="w-prop-label">Estimated</div><div class="w-prop-value teal">~18.3 MB</div></div>
+          <div class="w-inspector-divider"></div>
+          <div class="w-prop"><div class="w-prop-label">Savings</div><div class="w-tag" style="background:rgba(48,209,88,0.1);border-color:rgba(48,209,88,0.2);color:#30d158">↓ 65% smaller</div></div>
+        </div>
+      </div>
+      <div class="w-statusbar">
+        <span>8 files</span><span>·</span><span class="teal">3 selected</span><span>·</span><span>52.2 MB → ~18.3 MB</span>
+      </div>
+    </div>
+    </div>
+
+    </div><!-- /slider-track -->
+
+    <div class="slider-arrows">
+      <button class="slider-arrow slider-prev disabled" aria-label="Previous screenshot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <button class="slider-arrow slider-next" aria-label="Next screenshot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 6 15 12 9 18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="slider-dots">
+      <button class="slider-dot active" aria-label="Slide 1"></button>
+      <button class="slider-dot" aria-label="Slide 2"></button>
+      <button class="slider-dot" aria-label="Slide 3"></button>
+    </div>
+
+    </div><!-- /slider -->
+  </div>
+  </div>
+
+  <!-- ── HOW IT WORKS ── -->
+  <section class="how-it-works fade-in">
+    <div class="section-header">
+      <p class="section-label">How it works</p>
+      <h2>Three steps. Zero friction.</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <h3>Point to a folder</h3>
+        <p>Open any folder on your Mac. PDFloki scans and indexes every PDF instantly.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </div>
+        <h3>Inspect &amp; batch-edit</h3>
+        <p>Fix metadata, compress, merge, watermark, or sign — across one file or hundreds.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h3>Done — files stay local</h3>
+        <p>Everything processes on your Mac. No uploads, no cloud, no trace left behind.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CREDIBILITY ── -->
+  <div class="credibility fade-in">
+    <span class="cred-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      100% Local Processing
+    </span>
+    <span class="cred-dot"></span>
+    <span class="cred-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+      Built with SwiftUI
+    </span>
+    <span class="cred-dot"></span>
+    <span class="cred-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/>
+      </svg>
+      No Electron
+    </span>
+    <span class="cred-dot"></span>
+    <span class="cred-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      No Internet Required
+    </span>
+  </div>
+
+  <!-- ── FEATURES ── -->
+  <section class="features fade-in">
+    <div class="section-header">
+      <p class="section-label">Features</p>
+      <h2>Everything your PDFs need.</h2>
+    </div>
+
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+            </svg>
+          </div>
+        </div>
+        <h3>Library &amp; Organisation</h3>
+        <p>Browse folders in list or grid view. Sort, filter, favourite, and full-text search across your entire library.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </div>
+          <span class="shortcut">⌘⇧E</span>
+        </div>
+        <h3>Metadata Management</h3>
+        <p>Batch edit titles, authors, and dates. Rename with templates, copy metadata between files, or apply folder-wide presets.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="8 17 12 21 16 17"/>
+              <line x1="12" y1="12" x2="12" y2="21"/>
+              <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/>
+            </svg>
+          </div>
+          <span class="shortcut">⌘⇧K</span>
+        </div>
+        <h3>Compress</h3>
+        <p>Six quality presets from lossless stream optimisation to maximum compression for email and web sharing.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+              <line x1="8" y1="18" x2="21" y2="18"/>
+              <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/>
+              <line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+          </div>
+          <span class="shortcut">⌘⇧M</span>
+        </div>
+        <h3>Merge &amp; Split</h3>
+        <p>Combine multiple PDFs or extract exactly the pages you need. Non-destructive — originals are never modified.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <span class="shortcut">⌘⇧P</span>
+        </div>
+        <h3>Password &amp; Watermark</h3>
+        <p>Protect files with a password or apply a custom watermark — to one file or an entire batch in a single step.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+        </div>
+        <h3>Analysis &amp; Validation</h3>
+        <p>Find duplicates, check PDF/A compliance, validate integrity, and export metadata to CSV or JSON.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="norse-divider" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 2L2 12l10 10 10-10L12 2z"/><path d="M12 8l-4 4 4 4 4-4-4-4z"/>
+    </svg>
+  </div>
+
+  <!-- ── REQUIREMENTS ── -->
+  <div class="requirements fade-in">
+    <div class="requirements-inner">
+      <div class="req-item">
+        <p class="req-label">Platform</p>
+        <p class="req-value">&#63743; macOS 14+ · iPad coming soon</p>
+      </div>
+      <div class="req-item">
+        <p class="req-label">Architecture</p>
+        <p class="req-value">Apple Silicon &amp; Intel</p>
+      </div>
+      <div class="req-item">
+        <p class="req-label">Price</p>
+        <p class="req-value">One-time purchase</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <div class="cta-wrap fade-in">
+  <section class="cta">
+    <h2>Ready to tame<br>your PDFs?</h2>
+    <p>Your PDFs. Your Mac. Nothing leaves.<br>Pay once, own it forever.</p>
+    <a class="btn-primary" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Download for Mac
+    </a>
+  </section>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand-col">
+        <div class="footer-brand">
+          <img src="icon.png" alt="PDFloki" />
+          <span>PDFloki</span>
+        </div>
+        <p class="footer-tagline">Native PDF management for macOS.<br>Built by <a href="https://hexadexa.io">Hexadexa</a>.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Product</p>
+        <a href="#">Download</a>
+        <a href="https://github.com/h3x4d3x4/PDFloki">GitHub</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Highlights</p>
+        <span>46+ PDF tools</span>
+        <span>100% offline</span>
+        <span>Apple Silicon native</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 PDFloki. Made with ♥ for Floki.</p>
+      <p>Built with <a href="https://developer.apple.com/xcode/swiftui/">SwiftUI</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll-triggered fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Nav shadow on scroll
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 8);
+    }, { passive: true });
+
+    // Screenshot slider
+    (function() {
+      const track = document.querySelector('.slider-track');
+      const slides = track.querySelectorAll('.slider-slide');
+      const prev = document.querySelector('.slider-prev');
+      const next = document.querySelector('.slider-next');
+      const dots = document.querySelectorAll('.slider-dot');
+      let current = 0;
+
+      function goTo(i) {
+        current = Math.max(0, Math.min(i, slides.length - 1));
+        slides.forEach(s => s.style.transform = `translateX(-${current * 100}%)`);
+        prev.classList.toggle('disabled', current === 0);
+        next.classList.toggle('disabled', current === slides.length - 1);
+        dots.forEach((d, j) => d.classList.toggle('active', j === current));
+      }
+
+      prev.addEventListener('click', () => goTo(current - 1));
+      next.addEventListener('click', () => goTo(current + 1));
+      dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+      // Swipe support
+      let startX = 0;
+      track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchend', e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
+      }, { passive: true });
+
+      // Keyboard arrows when slider is in view
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft') goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+      });
+    })();
+  </script>
+</body>
+</html>
