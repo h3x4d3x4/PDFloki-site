@@ -1,0 +1,25 @@
+name: Deploy
+
+# Triggers on any push to main (HTML, CSS, appcast.xml, version.json updates)
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -e
+            cd /mnt/hexapool/docker/compose/pdfloki
+            git pull origin main
+            # Ensure releases volume directory exists
+            mkdir -p releases-data
+            docker compose up -d --build

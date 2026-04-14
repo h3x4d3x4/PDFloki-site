@@ -8,6 +8,16 @@ COPY index.html /usr/share/nginx/html/index.html
 COPY privacy.html /usr/share/nginx/html/privacy.html
 COPY icon.png /usr/share/nginx/html/icon.png
 
+# Optional pages — present after first build
+COPY changelog.htm[l] /usr/share/nginx/html/
+COPY download.htm[l]  /usr/share/nginx/html/
+
+# appcast.xml and version.json — committed to repo, updated by CI on each release
+COPY appcast.xm[l]  /usr/share/nginx/html/
+COPY version.jso[n] /usr/share/nginx/html/
+
+# releases/ is a Docker volume mount (see docker-compose.yaml) — not baked into the image
+
 # Set proper permissions
 RUN chmod -R 755 /usr/share/nginx/html && \
     chown -R nginx:nginx /usr/share/nginx/html

@@ -4,6 +4,9 @@ services:
     container_name: pdfloki-site
     ports:
       - "8089:80"
+    volumes:
+      # DMG releases live here — uploaded by CI, not committed to git
+      - ./releases-data:/usr/share/nginx/html/releases:ro
     networks:
       - pdfloki-network
     restart: unless-stopped
