@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-DEPLOY_DIR="/mnt/hexapool/docker/compose/pdfloki"
+DEPLOY_DIR="${DEPLOY_DIR:-$HOME/pdfloki}"
 
 cd "$DEPLOY_DIR"
 

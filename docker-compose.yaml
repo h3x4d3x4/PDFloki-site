@@ -2,15 +2,15 @@ services:
   pdfloki-web:
     build: .
     container_name: pdfloki-site
-    ports:
-      - "8089:80"
     volumes:
       # DMG releases live here — uploaded by CI, not committed to git
       - ./releases-data:/usr/share/nginx/html/releases:ro
     networks:
-      - pdfloki-network
+      - docker_web
     restart: unless-stopped
 
 networks:
-  pdfloki-network:
-    driver: bridge
+  # Shared with the cloudflared tunnel container so it can route
+  # pdfloki.app -> http://pdfloki-site:80 via internal DNS.
+  docker_web:
+    external: true

@@ -22,25 +22,27 @@ Then open [http://localhost:8001](http://localhost:8001).
 
 ## Deployment
 
-Self-hosted via Docker on TrueNAS, exposed through Cloudflare Tunnel (`cloudflared`). There is no reverse proxy -- `cloudflared` routes traffic directly to the container port.
+Self-hosted via Docker on a Hetzner VPS, exposed through Cloudflare Tunnel (`cloudflared`). There is no reverse proxy and no exposed host port -- `cloudflared` and the site container share a Docker network, so the tunnel routes directly to the site container via internal DNS.
 
 ### Initial Setup
 
-Clone the repository to the TrueNAS compose directory and build:
+The cloudflared container must already be running on the VPS, attached to a Docker network (default: `docker_web`). Then:
 
 ```
-cd /mnt/hexapool/docker/compose/pdfloki/
+git clone https://github.com/h3x4d3x4/PDFloki-site.git ~/pdfloki
+cd ~/pdfloki
+mkdir -p releases-data
 docker compose up -d --build
 ```
 
-Serves on port 8089.
+The site container joins the external `docker_web` network and is reachable from `cloudflared` as `http://pdfloki-site:80`.
 
 ### Tunnel Configuration
 
 In the Cloudflare Zero Trust dashboard, add a public hostname entry for the tunnel:
 
 - **Public hostname:** `pdfloki.app`
-- **Service:** `http://localhost:8089`
+- **Service:** `http://pdfloki-site:80`
 
 ### Future Updates
 
