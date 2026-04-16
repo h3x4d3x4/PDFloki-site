@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDFloki — PDF Management for macOS</title>
-  <meta name="description" content="A native macOS app to organise, inspect, and process your PDF files. Clean interface. Powerful tools. No subscription." />
+  <title>PDFloki — PDF Management for macOS &amp; iPad</title>
+  <meta name="description" content="A native macOS and iPadOS app to organise, inspect, and process your PDF files. 46+ tools. 100% local. No subscription." />
 
   <link rel="icon" type="image/png" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
 
-  <meta property="og:title" content="PDFloki — PDF Management for macOS" />
-  <meta property="og:description" content="Native macOS app to organise, inspect, and batch-process your PDFs. 46+ tools, 100% local, no subscription." />
+  <meta property="og:title" content="PDFloki — PDF Management for macOS &amp; iPad" />
+  <meta property="og:description" content="Native macOS and iPadOS app to organise, inspect, and batch-process your PDFs. 46+ tools, 100% local, no subscription." />
   <meta property="og:image" content="icon.png" />
   <meta property="og:type" content="website" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="PDFloki — PDF Management for macOS" />
-  <meta name="twitter:description" content="Native macOS app to organise, inspect, and batch-process your PDFs. 46+ tools, 100% local, no subscription." />
+  <meta name="twitter:title" content="PDFloki — PDF Management for macOS &amp; iPad" />
+  <meta name="twitter:description" content="Native macOS and iPadOS app to organise, inspect, and batch-process your PDFs. 46+ tools, 100% local, no subscription." />
   <meta name="twitter:image" content="icon.png" />
 
   <meta name="theme-color" content="#f5f2ed" />
@@ -26,9 +26,10 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "PDFloki",
-    "operatingSystem": "macOS",
+    "softwareVersion": "1.1.0",
+    "operatingSystem": "macOS 14+, iPadOS 17+",
     "applicationCategory": "ProductivityApplication",
-    "description": "A native macOS app to organise, inspect, and process your PDF files.",
+    "description": "A native macOS and iPadOS app to organise, inspect, and process your PDF files.",
     "offers": { "@type": "Offer", "priceCurrency": "USD" },
     "author": { "@type": "Person", "name": "Andrei", "url": "https://hexadexa.io" }
   }
@@ -277,7 +278,7 @@
     .hero-badge {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       background: var(--teal-soft);
       color: var(--teal);
       font-size: 11.5px;
@@ -289,6 +290,14 @@
       border: 1px solid rgba(29,104,117,0.16);
     }
     .hero-badge svg { width: 12px; height: 12px; }
+    .hero-badge .version-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 6px rgba(22,163,74,0.55);
+      flex-shrink: 0;
+    }
 
     .hero h1 {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
@@ -321,6 +330,14 @@
       align-items: center;
       gap: 12px;
     }
+
+    .hero-platforms {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      letter-spacing: 0.1px;
+    }
+    .hero-platforms .dot { margin: 0 5px; opacity: 0.4; }
 
     .hero-stats {
       display: flex;
@@ -937,6 +954,14 @@
       line-height: 1.15;
     }
 
+    .section-header p.section-sub {
+      font-size: 15px;
+      color: var(--text-2);
+      max-width: 580px;
+      margin: 12px auto 0;
+      line-height: 1.6;
+    }
+
     .features-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -978,6 +1003,9 @@
     .feature-card:nth-child(4)::before { background: #7c3aed; }
     .feature-card:nth-child(5)::before { background: #ca8a04; }
     .feature-card:nth-child(6)::before { background: #16a34a; }
+    .feature-card:nth-child(7)::before { background: #16a34a; }
+    .feature-card:nth-child(8)::before { background: #dc2626; }
+    .feature-card:nth-child(9)::before { background: #7c3aed; }
     @media (hover: hover) {
       .feature-card:hover::before { opacity: 1; }
     }
@@ -1023,6 +1051,12 @@
     .feature-card:nth-child(5) .feature-icon svg { color: #ca8a04; }
     .feature-card:nth-child(6) .feature-icon { background: rgba(22,163,74,0.09); }
     .feature-card:nth-child(6) .feature-icon svg { color: #16a34a; }
+    .feature-card:nth-child(7) .feature-icon { background: rgba(22,163,74,0.09); }
+    .feature-card:nth-child(7) .feature-icon svg { color: #16a34a; }
+    .feature-card:nth-child(8) .feature-icon { background: rgba(220,38,38,0.09); }
+    .feature-card:nth-child(8) .feature-icon svg { color: #dc2626; }
+    .feature-card:nth-child(9) .feature-icon { background: rgba(124,58,237,0.09); }
+    .feature-card:nth-child(9) .feature-icon svg { color: #7c3aed; }
 
     /* macOS keyboard shortcut pill */
     .shortcut {
@@ -1052,6 +1086,402 @@
       font-size: 13px;
       color: var(--text-muted);
       line-height: 1.58;
+    }
+
+    /* ─── COMPRESS SPOTLIGHT ─── */
+    .compress-spotlight {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px 96px;
+    }
+
+    .compress-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 840px) {
+      .compress-grid { grid-template-columns: 1fr; gap: 20px; }
+    }
+
+    .compress-table {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+
+    .compress-row {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      gap: 14px;
+    }
+    .compress-row:last-child { border-bottom: none; }
+
+    .compress-level {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--orange);
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+
+    .compress-body .compress-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.1px;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .compress-body .compress-specs {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .compress-badge-default {
+      display: inline-flex;
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--teal);
+      background: var(--teal-soft);
+      border: 1px solid rgba(29,104,117,0.18);
+      border-radius: 100px;
+      padding: 2px 7px;
+      line-height: 1.4;
+    }
+
+    .compress-pill-cmyk {
+      display: inline-flex;
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #7c3aed;
+      background: rgba(124,58,237,0.08);
+      border: 1px solid rgba(124,58,237,0.22);
+      border-radius: 100px;
+      padding: 2px 7px;
+      letter-spacing: 0.2px;
+      line-height: 1.4;
+    }
+
+    .compress-savings {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+      background: rgba(0,0,0,0.035);
+      border-radius: 7px;
+      padding: 5px 10px;
+    }
+
+    .compress-side {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .compress-example {
+      background: linear-gradient(180deg, #fefcf8 0%, #faf7f2 100%);
+      border: 1px solid rgba(232,118,58,0.16);
+      border-radius: var(--radius-card);
+      padding: 24px 22px;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+    }
+    .compress-example::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--orange), var(--teal));
+    }
+
+    .compress-example-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .compress-example-quote {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .compress-before {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: -0.8px;
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      text-decoration-color: rgba(0,0,0,0.18);
+    }
+    .compress-arrow {
+      color: var(--text-muted);
+      font-size: 18px;
+      opacity: 0.55;
+    }
+    .compress-after {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--orange);
+      letter-spacing: -1.2px;
+      line-height: 1;
+    }
+    .compress-example-note {
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.55;
+    }
+    .compress-example-note strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .compress-pipeline {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-card);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-card);
+    }
+    .compress-pipeline-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--teal);
+      margin-bottom: 10px;
+    }
+    .compress-pipeline-steps {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 8px;
+      margin-bottom: 10px;
+    }
+    .compress-step {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      background: rgba(0,0,0,0.04);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 4px 9px;
+      letter-spacing: -0.1px;
+    }
+    .compress-step-arrow {
+      color: var(--text-muted);
+      opacity: 0.5;
+      font-size: 11px;
+    }
+    .compress-pipeline-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .compress-footnote {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 24px;
+      line-height: 1.6;
+    }
+
+    /* ─── IPAD SECTION ─── */
+    .ipad-section {
+      background: linear-gradient(180deg, var(--bg) 0%, rgba(29,104,117,0.05) 50%, var(--bg) 100%);
+      padding: 80px 24px;
+    }
+    .ipad-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    @media (max-width: 840px) {
+      .ipad-inner { grid-template-columns: 1fr; gap: 40px; }
+      .ipad-section { padding: 56px 24px; }
+    }
+
+    .ipad-copy .section-label { text-align: left; }
+    .ipad-copy h2 {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: -1.2px;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .ipad-copy p {
+      font-size: 15.5px;
+      color: var(--text-2);
+      line-height: 1.65;
+      margin-bottom: 20px;
+      max-width: 480px;
+    }
+
+    .ipad-bullets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      list-style: none;
+    }
+    .ipad-bullets li {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-2);
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 100px;
+      padding: 6px 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .ipad-bullets svg {
+      width: 12px;
+      height: 12px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    /* Pure-CSS iPad silhouette */
+    .ipad-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+    }
+    .ipad-visual::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 440px;
+      height: 440px;
+      background: radial-gradient(circle, rgba(232,118,58,0.10) 0%, rgba(45,212,191,0.06) 35%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ipad-frame {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      aspect-ratio: 4 / 5.6;
+      background: linear-gradient(160deg, #2a2a2c 0%, #1a1a1c 100%);
+      border-radius: 28px;
+      padding: 20px 16px;
+      box-shadow:
+        0 0 0 1.5px rgba(255,255,255,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        0 8px 32px rgba(0,0,0,0.18),
+        0 32px 80px rgba(0,0,0,0.22);
+      z-index: 1;
+    }
+    .ipad-camera {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #0a0a0b;
+      box-shadow: inset 0 0 2px rgba(255,255,255,0.3);
+    }
+    .ipad-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 14px;
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(232,118,58,0.15), transparent 55%),
+        radial-gradient(ellipse at 70% 80%, rgba(45,212,191,0.16), transparent 55%),
+        linear-gradient(160deg, #faf7f2 0%, #efeae2 100%);
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+    }
+    .ipad-screen::before {
+      content: '';
+      position: absolute;
+      top: 14px; left: 14px; right: 14px;
+      height: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.4));
+      border-radius: 7px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .ipad-screen::after {
+      content: '';
+      position: absolute;
+      top: 50px; left: 14px;
+      width: 28%;
+      bottom: 14px;
+      background: rgba(255,255,255,0.55);
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .ipad-screen-doc {
+      position: absolute;
+      top: 50px; right: 14px;
+      left: calc(28% + 28px);
+      bottom: 14px;
+      background: linear-gradient(180deg, #ffffff 0%, #fefcf8 100%);
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .ipad-line {
+      height: 5px;
+      background: rgba(0,0,0,0.08);
+      border-radius: 2px;
+    }
+    .ipad-line.short { width: 45%; }
+    .ipad-line.mid { width: 72%; }
+    .ipad-line.orange {
+      background: linear-gradient(90deg, var(--orange) 0%, var(--orange-dark) 100%);
+      height: 6px;
+      width: 38%;
+      opacity: 0.85;
+    }
+    .ipad-line.teal {
+      background: var(--teal-light);
+      opacity: 0.6;
+      width: 28%;
     }
 
     /* ─── REQUIREMENTS ─── */
@@ -1194,6 +1624,146 @@
       background: var(--text-muted);
       opacity: 0.3;
     }
+
+    /* ─── PRICING / TRIAL ─── */
+    .pricing-section {
+      padding: 72px 24px 24px;
+    }
+    .pricing-card {
+      max-width: 560px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-top: 3px solid var(--orange);
+      border-radius: var(--radius-card);
+      padding: 40px 36px;
+      text-align: center;
+      box-shadow: var(--shadow-lift);
+      position: relative;
+    }
+    @media (max-width: 600px) {
+      .pricing-section { padding: 48px 16px 16px; }
+      .pricing-card { padding: 32px 22px; }
+    }
+
+    .pricing-card h2 {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--text);
+      line-height: 1.12;
+      margin-bottom: 10px;
+    }
+    .pricing-card .pricing-sub {
+      font-size: 14.5px;
+      color: var(--text-2);
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .pricing-check-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 18px;
+      text-align: left;
+      margin: 0 auto 26px;
+      max-width: 420px;
+    }
+    @media (max-width: 480px) {
+      .pricing-check-list { grid-template-columns: 1fr; }
+    }
+    .pricing-check-list li {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13.5px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .pricing-check-list svg {
+      width: 16px;
+      height: 16px;
+      color: var(--orange);
+      flex-shrink: 0;
+    }
+
+    .pricing-fine {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 14px;
+      letter-spacing: 0.15px;
+    }
+    .pricing-fine .dot { margin: 0 5px; opacity: 0.4; }
+
+    /* ─── FAQ ─── */
+    .faq-section {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 72px 24px 24px;
+    }
+    @media (max-width: 600px) {
+      .faq-section { padding: 48px 16px 16px; }
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: box-shadow 0.2s ease;
+    }
+    .faq-item[open] {
+      box-shadow: var(--shadow-card);
+    }
+
+    .faq-item > summary {
+      list-style: none;
+      padding: 18px 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.1px;
+      user-select: none;
+    }
+    .faq-item > summary::-webkit-details-marker { display: none; }
+    .faq-item > summary:hover { color: var(--orange-dark); }
+
+    .faq-chevron {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: var(--text-muted);
+      transition: transform 0.25s ease, color 0.2s ease;
+    }
+    .faq-item[open] .faq-chevron {
+      transform: rotate(180deg);
+      color: var(--orange);
+    }
+
+    .faq-body {
+      padding: 0 22px 20px;
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.65;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      margin: 0 0 0 0;
+    }
+    .faq-body strong { color: var(--text); font-weight: 600; }
 
     /* ─── CTA ─── */
     .cta-wrap {
@@ -1395,6 +1965,10 @@
       .section-header { margin-bottom: 32px; }
       .features { padding-bottom: 56px; }
       .btn-primary { font-size: 14px; padding: 12px 22px; }
+      .compress-spotlight { padding-bottom: 56px; }
+      .compress-row { grid-template-columns: 48px 1fr; padding: 14px 16px; gap: 10px; }
+      .compress-savings { grid-column: 2; justify-self: start; margin-top: 4px; }
+      .compress-level { font-size: 22px; }
     }
     @media (max-width: 400px) {
       .requirements-inner { grid-template-columns: 1fr; }
@@ -1411,9 +1985,12 @@
       <span>PDFloki</span>
     </a>
     <div class="nav-right">
+      <a class="nav-link" href="#features">Features</a>
+      <a class="nav-link" href="#compression">Compression</a>
+      <a class="nav-link" href="#faq">FAQ</a>
       <a class="nav-link" href="https://github.com/h3x4d3x4/PDFloki">GitHub</a>
       <a class="nav-link" href="privacy.html">Privacy</a>
-      <a class="nav-btn" href="https://pdfloki.app/releases/PDFloki-1.0.0.dmg">Download</a>
+      <a class="nav-btn" href="https://pdfloki.app/releases/PDFloki-1.1.0.dmg">Download</a>
     </div>
   </nav>
 
@@ -1433,17 +2010,15 @@
 
     <div class="hero-content">
       <div class="hero-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
-        </svg>
-        Built for macOS
+        <span class="version-dot" aria-hidden="true"></span>
+        v1.1.0 — New
       </div>
 
       <h1>PDFloki.<br>Tame your PDFs.<br><em>For good.</em></h1>
-      <p>A native macOS app to organise, inspect, and batch-process your entire PDF library — no cloud, no bloat, no subscription.</p>
+      <p>A native macOS and iPad app to organise, inspect, and batch-process your entire PDF library — no cloud, no bloat, no subscription.</p>
 
       <div class="hero-actions">
-        <a class="btn-primary" href="https://pdfloki.app/releases/PDFloki-1.0.0.dmg">
+        <a class="btn-primary" href="https://pdfloki.app/releases/PDFloki-1.1.0.dmg">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <polyline points="7 10 12 15 17 10"/>
@@ -1456,6 +2031,7 @@
           <span class="dot">·</span>
           Apple Silicon &amp; Intel
         </p>
+        <p class="hero-platforms">Also available on iPad <span class="dot">·</span> macOS 14+ / iPadOS 17+</p>
       </div>
 
       <div class="hero-stats">
@@ -1852,7 +2428,7 @@
         </div>
         <div class="w-inspector">
           <div class="w-inspector-title">Compress — 3 files</div>
-          <div class="w-prop"><div class="w-prop-label">Preset</div><div class="w-prop-value teal">Balanced</div></div>
+          <div class="w-prop"><div class="w-prop-label">Preset</div><div class="w-prop-value teal">Standard (Level 3)</div></div>
           <div class="w-prop"><div class="w-prop-label">Original Size</div><div class="w-prop-value">52.2 MB</div></div>
           <div class="w-prop"><div class="w-prop-label">Estimated</div><div class="w-prop-value teal">~18.3 MB</div></div>
           <div class="w-inspector-divider"></div>
@@ -1905,7 +2481,7 @@
           </svg>
         </div>
         <h3>Point to a folder</h3>
-        <p>Open any folder on your Mac. PDFloki scans and indexes every PDF instantly.</p>
+        <p>Open any folder on your Mac or iPad. PDFloki scans and indexes every PDF instantly.</p>
       </div>
       <div class="step">
         <div class="step-number">
@@ -1924,7 +2500,7 @@
           </svg>
         </div>
         <h3>Done — files stay local</h3>
-        <p>Everything processes on your Mac. No uploads, no cloud, no trace left behind.</p>
+        <p>Everything processes on-device. No uploads, no cloud, no trace left behind.</p>
       </div>
     </div>
   </section>
@@ -1961,10 +2537,11 @@
   </div>
 
   <!-- ── FEATURES ── -->
-  <section class="features fade-in">
+  <section class="features fade-in" id="features">
     <div class="section-header">
       <p class="section-label">Features</p>
       <h2>Everything your PDFs need.</h2>
+      <p class="section-sub">Nine core surfaces, 46+ tools beneath them. Every action runs on-device — no uploads, no accounts, no background calls home.</p>
     </div>
 
     <div class="features-grid">
@@ -1977,9 +2554,10 @@
               <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
             </svg>
           </div>
+          <span class="shortcut">⌘K</span>
         </div>
         <h3>Library &amp; Organisation</h3>
-        <p>Browse folders in list or grid view. Sort, filter, favourite, and full-text search across your entire library.</p>
+        <p>Browse folders in list or grid view. Sort, filter, favourite, and full-text search across your whole library. Command Palette (⌘K) jumps to any tool.</p>
       </div>
 
       <div class="feature-card">
@@ -1993,7 +2571,7 @@
           <span class="shortcut">⌘⇧E</span>
         </div>
         <h3>Metadata Management</h3>
-        <p>Batch edit titles, authors, and dates. Rename with templates, copy metadata between files, or apply folder-wide presets.</p>
+        <p>Batch edit titles, authors, subjects, and dates. Rename with templates, copy metadata between files, apply folder-wide presets, and validate integrity.</p>
       </div>
 
       <div class="feature-card">
@@ -2008,7 +2586,7 @@
           <span class="shortcut">⌘⇧K</span>
         </div>
         <h3>Compress</h3>
-        <p>Six quality presets from lossless stream optimisation to maximum compression for email and web sharing.</p>
+        <p>Six PDFium-powered presets — from Lossless stream optimisation to Maximum 72 DPI crunch. CMYK preserved on Minimal and High Quality for print workflows.</p>
       </div>
 
       <div class="feature-card">
@@ -2023,8 +2601,8 @@
           </div>
           <span class="shortcut">⌘⇧M</span>
         </div>
-        <h3>Merge &amp; Split</h3>
-        <p>Combine multiple PDFs or extract exactly the pages you need. Non-destructive — originals are never modified.</p>
+        <h3>Page Manager</h3>
+        <p>Reorder, rotate, duplicate, extract, and insert blanks. Merge files, split on any page range, crop, and normalise page sizes. Non-destructive — originals are never overwritten.</p>
       </div>
 
       <div class="feature-card">
@@ -2038,7 +2616,7 @@
           <span class="shortcut">⌘⇧P</span>
         </div>
         <h3>Password &amp; Watermark</h3>
-        <p>Protect files with a password or apply a custom watermark — to one file or an entire batch in a single step.</p>
+        <p>Protect or unlock files with a password. Apply watermarks, headers, footers, stamps, and backgrounds — to one file or an entire batch in a single step.</p>
       </div>
 
       <div class="feature-card">
@@ -2051,9 +2629,198 @@
           </div>
         </div>
         <h3>Analysis &amp; Validation</h3>
-        <p>Find duplicates, check PDF/A compliance, validate integrity, and export metadata to CSV or JSON.</p>
+        <p>Find duplicates, generate library statistics, check PDF/A compliance, run validation reports, and export metadata to CSV or JSON.</p>
       </div>
 
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+        </div>
+        <h3>OCR</h3>
+        <p>Apple Vision on-device OCR. 20+ languages. Configurable DPI, auto-rotate, deskew. Export text to sidecar .txt or clipboard. Live per-page progress, cancellable at any moment.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </div>
+        </div>
+        <h3>Redact &amp; Privacy</h3>
+        <p>Permanently black-box matching text — burned into page content, not recoverable. Match Preview counts hits per file before you commit. Safe for client work and legal exports.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+              <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+              <path d="M2 2l7.586 7.586"/>
+              <circle cx="11" cy="11" r="2"/>
+            </svg>
+          </div>
+        </div>
+        <h3>Forms &amp; Signatures</h3>
+        <p>Fill interactive PDF forms: text fields, checkboxes, radio groups, dropdowns. Draw, type, or upload an electronic signature and save it for reuse across documents.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── COMPRESSION SPOTLIGHT ── -->
+  <section class="compress-spotlight fade-in" id="compression">
+    <div class="section-header">
+      <p class="section-label">PDFium-powered compression</p>
+      <h2>Six presets. Real-world savings.</h2>
+      <p class="section-sub">A multi-pass pipeline — font subsetting, qpdf stream optimization, and PDFium image recompression — tuned across six presets so you pick quality vs size, not guess.</p>
+    </div>
+
+    <div class="compress-grid">
+
+      <div class="compress-table">
+        <div class="compress-row">
+          <div class="compress-level">L0</div>
+          <div class="compress-body">
+            <div class="compress-name">Lossless</div>
+            <div class="compress-specs">qpdf stream optimization only · images untouched</div>
+          </div>
+          <div class="compress-savings">2–10%</div>
+        </div>
+
+        <div class="compress-row">
+          <div class="compress-level">L1</div>
+          <div class="compress-body">
+            <div class="compress-name">
+              Minimal
+              <span class="compress-pill-cmyk">CMYK preserved</span>
+            </div>
+            <div class="compress-specs">300 DPI · JPEG quality 85</div>
+          </div>
+          <div class="compress-savings">5–15%</div>
+        </div>
+
+        <div class="compress-row">
+          <div class="compress-level">L2</div>
+          <div class="compress-body">
+            <div class="compress-name">
+              High Quality
+              <span class="compress-pill-cmyk">CMYK preserved</span>
+            </div>
+            <div class="compress-specs">220 DPI · JPEG quality 75</div>
+          </div>
+          <div class="compress-savings">15–30%</div>
+        </div>
+
+        <div class="compress-row">
+          <div class="compress-level">L3</div>
+          <div class="compress-body">
+            <div class="compress-name">
+              Standard
+              <span class="compress-badge-default">Default</span>
+            </div>
+            <div class="compress-specs">150 DPI · JPEG quality 65</div>
+          </div>
+          <div class="compress-savings">25–45%</div>
+        </div>
+
+        <div class="compress-row">
+          <div class="compress-level">L4</div>
+          <div class="compress-body">
+            <div class="compress-name">Aggressive</div>
+            <div class="compress-specs">100 DPI · JPEG quality 50</div>
+          </div>
+          <div class="compress-savings">45–65%</div>
+        </div>
+
+        <div class="compress-row">
+          <div class="compress-level">L5</div>
+          <div class="compress-body">
+            <div class="compress-name">Maximum</div>
+            <div class="compress-specs">72 DPI · JPEG quality 35</div>
+          </div>
+          <div class="compress-savings">60–80%</div>
+        </div>
+      </div>
+
+      <div class="compress-side">
+        <div class="compress-example">
+          <p class="compress-example-label">Real example · Standard preset</p>
+          <div class="compress-example-quote">
+            <span class="compress-before">28 MB</span>
+            <span class="compress-arrow">→</span>
+            <span class="compress-after">4.8 MB</span>
+          </div>
+          <p class="compress-example-note">A 186-page thesis with embedded figures, dropped to under 5 MB with <strong>no visible quality loss</strong> on-screen. Emails that used to bounce now send.</p>
+        </div>
+
+        <div class="compress-pipeline">
+          <p class="compress-pipeline-title">Multi-pass pipeline</p>
+          <div class="compress-pipeline-steps">
+            <span class="compress-step">Font subsetting</span>
+            <span class="compress-step-arrow">→</span>
+            <span class="compress-step">qpdf streams</span>
+            <span class="compress-step-arrow">→</span>
+            <span class="compress-step">PDFium images</span>
+          </div>
+          <p class="compress-pipeline-note">Three passes, one click. Watch Folder can auto-apply your preferred preset to any new PDF dropped in.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="compress-footnote">Results vary by source document — scanned-heavy PDFs compress more; text-only PDFs compress less.</p>
+  </section>
+
+  <!-- ── IPAD SECTION ── -->
+  <section class="ipad-section fade-in" id="ipad">
+    <div class="ipad-inner">
+      <div class="ipad-copy">
+        <p class="section-label">Cross-device</p>
+        <h2>Now on iPad.</h2>
+        <p>PDFloki runs natively on iPadOS 17 and later. The same library, the same tools, rebuilt for touch. Drag pages with your finger, sign with Apple Pencil, and pick up where you left off on your Mac.</p>
+        <ul class="ipad-bullets">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Touch-first UI
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Apple Pencil annotations
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            iCloud sync-ready
+          </li>
+        </ul>
+      </div>
+
+      <div class="ipad-visual" aria-hidden="true">
+        <div class="ipad-frame">
+          <div class="ipad-camera"></div>
+          <div class="ipad-screen">
+            <div class="ipad-screen-doc">
+              <div class="ipad-line orange"></div>
+              <div class="ipad-line"></div>
+              <div class="ipad-line mid"></div>
+              <div class="ipad-line"></div>
+              <div class="ipad-line short"></div>
+              <div class="ipad-line"></div>
+              <div class="ipad-line mid"></div>
+              <div class="ipad-line teal"></div>
+              <div class="ipad-line short"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -2068,7 +2835,7 @@
     <div class="requirements-inner">
       <div class="req-item">
         <p class="req-label">Platform</p>
-        <p class="req-value">&#63743; macOS 14+ · iPad coming soon</p>
+        <p class="req-value">&#63743; macOS 14+ · iPad &amp; Mac</p>
       </div>
       <div class="req-item">
         <p class="req-label">Architecture</p>
@@ -2081,12 +2848,58 @@
     </div>
   </div>
 
+  <!-- ── PRICING / TRIAL ── -->
+  <section class="pricing-section fade-in" id="pricing">
+    <div class="pricing-card">
+      <h2>Try free for 7 days.</h2>
+      <p class="pricing-sub">Full access to every feature during your trial. No credit card required. Buy once, own it forever — no subscription.</p>
+
+      <ul class="pricing-check-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          All 46+ tools unlocked
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          No subscription, ever
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Free auto-updates included
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          No account required
+        </li>
+      </ul>
+
+      <a class="btn-primary" href="https://pdfloki.app/releases/PDFloki-1.1.0.dmg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download Free Trial
+      </a>
+
+      <p class="pricing-fine">
+        macOS 14+
+        <span class="dot">·</span>
+        iPadOS 17+
+        <span class="dot">·</span>
+        Apple Silicon &amp; Intel
+        <span class="dot">·</span>
+        v1.1.0
+      </p>
+    </div>
+  </section>
+
   <!-- ── CTA ── -->
   <div class="cta-wrap fade-in">
   <section class="cta">
     <h2>Ready to tame<br>your PDFs?</h2>
     <p>Your PDFs. Your Mac. Nothing leaves.<br>Pay once, own it forever.</p>
-    <a class="btn-primary" href="https://pdfloki.app/releases/PDFloki-1.0.0.dmg">
+    <a class="btn-primary" href="https://pdfloki.app/releases/PDFloki-1.1.0.dmg">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
@@ -2097,6 +2910,68 @@
   </section>
   </div>
 
+  <!-- ── FAQ ── -->
+  <section class="faq-section fade-in" id="faq">
+    <div class="section-header">
+      <p class="section-label">FAQ</p>
+      <h2>Common questions.</h2>
+    </div>
+
+    <div class="faq-list">
+
+      <details class="faq-item">
+        <summary>
+          <span>Is my data sent anywhere?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-body">
+          No. All PDF processing happens locally on your Mac or iPad using Apple's native frameworks. File contents, metadata, and usage data <strong>never leave your device</strong>. The only outbound requests are optional Sparkle update checks and one-time license activation.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>Does it work on Apple Silicon? And iPad?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-body">
+          Yes to both. PDFloki ships as a <strong>universal binary</strong> — fully native on Apple Silicon (M1 and later) and Intel Macs, plus a native iPadOS 17+ build designed for touch.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>What's the difference between compression presets?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-body">
+          Six levels from <strong>Lossless</strong> (2–10% savings, stream optimization only) to <strong>Maximum</strong> (60–80% savings, 72 DPI). Levels 1–2 preserve CMYK color for print workflows. Level 3 Standard is the recommended default for most day-to-day use.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>Do I need an internet connection?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-body">
+          No — PDF processing works <strong>fully offline</strong>. The only network requests are optional update checks via Sparkle and the one-time license activation. Everything else is local.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>What happens after the 7-day trial?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-body">
+          After the trial, a subset of tools remains free. A <strong>one-time purchase</strong> unlocks every feature permanently — no recurring fees, no seat counts, no surprises.
+        </div>
+      </details>
+
+    </div>
+  </section>
+
   <!-- ── FOOTER ── -->
   <footer>
     <div class="footer-top">
@@ -2105,12 +2980,13 @@
           <img src="icon.png" alt="PDFloki" />
           <span>PDFloki</span>
         </div>
-        <p class="footer-tagline">Native PDF management for macOS.<br>Built by <a href="https://hexadexa.io">Hexadexa</a>.</p>
+        <p class="footer-tagline">Native PDF management for macOS and iPad.<br>Built by <a href="https://hexadexa.io">Hexadexa</a>.</p>
       </div>
       <div class="footer-col">
         <p class="footer-col-title">Product</p>
-        <a href="https://pdfloki.app/releases/PDFloki-1.0.0.dmg">Download</a>
+        <a href="https://pdfloki.app/releases/PDFloki-1.1.0.dmg">Download</a>
         <a href="https://github.com/h3x4d3x4/PDFloki">GitHub</a>
+        <a href="https://github.com/h3x4d3x4/PDFloki/blob/main/CHANGELOG.md">Changelog</a>
         <a href="privacy.html">Privacy Policy</a>
       </div>
       <div class="footer-col">
@@ -2118,10 +2994,11 @@
         <span>46+ PDF tools</span>
         <span>100% offline</span>
         <span>Apple Silicon native</span>
+        <span>iPadOS 17+ ready</span>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 PDFloki. Made with ♥ for Floki.</p>
+      <p>© 2026 PDFloki · v1.1.0 · Made with ♥ for Floki.</p>
       <p>Built with <a href="https://developer.apple.com/xcode/swiftui/">SwiftUI</a></p>
     </div>
   </footer>
