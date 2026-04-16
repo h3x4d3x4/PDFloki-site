@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy — PDFloki</title>
-  <meta name="description" content="PDFloki privacy policy. All PDF processing happens locally on your Mac — no data collection, no analytics, no network requests." />
+  <meta name="description" content="PDFloki privacy policy. All PDF processing happens locally on your Mac — no data collection, no analytics, minimal network access." />
 
   <link rel="icon" type="image/png" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
@@ -420,7 +420,7 @@
           <div class="tldr-check">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          The app makes no network requests and works fully offline.
+          All PDF processing is offline. The only network requests are optional update checks via Sparkle and a one-time tool download.
         </div>
       </div>
     </div>
@@ -475,9 +475,9 @@
               <line x1="12" y1="20" x2="12.01" y2="20"/>
             </svg>
           </div>
-          <h2>No network access</h2>
+          <h2>Minimal network access</h2>
         </div>
-        <p>PDFloki does not make any network requests. There is no backend server, no cloud sync, and no telemetry. The app works fully offline.</p>
+        <p>PDFloki makes no network requests for PDF processing — all operations run locally. The app connects to the internet only for: (1) checking for app updates via Sparkle, which fetches an appcast file from GitHub, and (2) a one-time download of the qpdf compression tool from the Homebrew CDN if not already installed. There is no backend server, no cloud sync, and no telemetry.</p>
       </div>
 
 
