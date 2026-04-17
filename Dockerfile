@@ -7,6 +7,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY index.html /usr/share/nginx/html/index.html
 COPY privacy.html /usr/share/nginx/html/privacy.html
 COPY icon.png /usr/share/nginx/html/icon.png
+COPY assets/ /usr/share/nginx/html/assets/
 
 # Optional pages — present after first build
 COPY changelog.htm[l] /usr/share/nginx/html/
