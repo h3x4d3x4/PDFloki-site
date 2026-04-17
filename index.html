@@ -446,6 +446,7 @@
     .slider-track {
       display: flex;
       overflow: hidden;
+      border-radius: 14px;
     }
     .slider-slide {
       min-width: 100%;
@@ -560,6 +561,16 @@
     }
     .app-window:hover {
       transform: rotateX(0deg);
+    }
+    .app-window--screenshot {
+      padding: 0;
+      background: transparent;
+    }
+    .app-window--screenshot img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
     }
 
     /* Title bar */
@@ -1097,6 +1108,29 @@
       font-size: 13px;
       color: var(--text-muted);
       line-height: 1.58;
+    }
+
+    /* ─── COMPRESSION PROOF ─── */
+    .compression-proof {
+      margin: 2.5rem auto 0;
+      max-width: 820px;
+      text-align: center;
+    }
+    .compression-proof img {
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.22),
+        0 8px 40px rgba(0,0,0,0.45),
+        0 24px 80px rgba(0,0,0,0.3);
+      display: block;
+    }
+    .compression-proof-caption {
+      margin-top: 0.75rem;
+      font-size: 0.82rem;
+      color: var(--gray-400, #888);
+      letter-spacing: 0.02em;
     }
 
     /* ─── COMPRESS SPOTLIGHT ─── */
@@ -2143,389 +2177,24 @@
     <div class="slider">
     <div class="slider-track">
 
-    <!-- Slide 1: App mockup -->
+    <!-- Slide 1: Library view -->
     <div class="slider-slide">
-    <div class="app-window">
-
-      <!-- Title bar -->
-      <div class="w-titlebar">
-        <div class="traffic-lights">
-          <span class="tl tl-close"></span>
-          <span class="tl tl-min"></span>
-          <span class="tl tl-max"></span>
-        </div>
-        <span class="w-title">PDFloki — Documents</span>
-        <div class="w-titlebar-right">
-          <div class="w-view-btn list">
-            <span></span><span></span><span></span>
-          </div>
-          <div class="w-search-pill">
-            <span class="w-search-icon"></span>
-            <span class="w-search-line"></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Body -->
-      <div class="w-body">
-
-        <!-- Sidebar: folder navigation -->
-        <div class="w-sidebar">
-          <div class="w-sidebar-label">Folders</div>
-
-          <div class="w-nav-item active">
-            <span class="w-nav-dot"></span>
-            Documents
-            <span class="w-nav-count">12</span>
-          </div>
-          <div class="w-nav-item">
-            <span class="w-nav-dot"></span>
-            Invoices
-            <span class="w-nav-count">34</span>
-          </div>
-          <div class="w-nav-item">
-            <span class="w-nav-dot"></span>
-            Research
-            <span class="w-nav-count">8</span>
-          </div>
-          <div class="w-nav-item">
-            <span class="w-nav-dot"></span>
-            Archive
-            <span class="w-nav-count">91</span>
-          </div>
-
-          <div class="w-sidebar-divider"></div>
-          <div class="w-sidebar-label">Quick Access</div>
-
-          <div class="w-nav-item">
-            <span class="w-nav-dot"></span>
-            Favourites
-          </div>
-          <div class="w-nav-item">
-            <span class="w-nav-dot"></span>
-            Recent
-          </div>
-        </div>
-
-        <!-- Main: filter bar + file list -->
-        <div class="w-main">
-
-          <!-- SearchFilterBar -->
-          <div class="w-filterbar">
-            <div class="w-search">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <span class="w-search-text"></span>
-            </div>
-            <div class="w-chips">
-              <span class="w-chip active">All</span>
-              <span class="w-chip">Favourites</span>
-              <span class="w-chip-div"></span>
-              <span class="w-chip" style="color:#30d158;border-color:rgba(48,209,88,0.25);background:rgba(48,209,88,0.08)">Title OK</span>
-              <span class="w-chip orange">Mismatched</span>
-              <span class="w-chip-div"></span>
-              <span class="w-chip">Has Metadata</span>
-            </div>
-          </div>
-
-          <!-- File list — CompactListRow style, height 44px each -->
-          <div class="w-file-list">
-
-            <div class="w-row selected">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info">
-                <span class="w-row-name">Annual Report 2024.pdf</span>
-                <span class="w-row-meta">4.2 MB · 48 pg · Andrei P.</span>
-              </div>
-              <span class="w-row-date">Today</span>
-            </div>
-
-            <div class="w-row">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info">
-                <span class="w-row-name">Invoice_March_2025.pdf</span>
-                <span class="w-row-meta">180 KB · 2 pg · Acme Corp</span>
-              </div>
-              <span class="w-row-date">Mar 18</span>
-            </div>
-
-            <div class="w-row">
-              <span class="w-status warn"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info">
-                <span class="w-row-name">Research Paper Draft.pdf</span>
-                <span class="w-row-meta">2.8 MB · 24 pg</span>
-              </div>
-              <span class="w-row-date">Mar 12</span>
-            </div>
-
-            <div class="w-row">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info">
-                <span class="w-row-name">Contract_v3_signed.pdf</span>
-                <span class="w-row-meta">640 KB · 12 pg · Legal Dept</span>
-              </div>
-              <span class="w-row-date">Feb 28</span>
-            </div>
-
-            <div class="w-row">
-              <span class="w-status error"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info">
-                <span class="w-row-name">Slides_Q1_Review.pdf</span>
-                <span class="w-row-meta">8.1 MB · 62 pg</span>
-              </div>
-              <span class="w-row-date">Feb 14</span>
-            </div>
-
-            <div class="w-row">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info">
-                <span class="w-row-name">User Manual v2.pdf</span>
-                <span class="w-row-meta">1.1 MB · 38 pg · Tech Team</span>
-              </div>
-              <span class="w-row-date">Jan 30</span>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Inspector panel -->
-        <div class="w-inspector">
-          <div class="w-inspector-title">Inspector</div>
-
-          <div class="w-prop">
-            <div class="w-prop-label">Title</div>
-            <div class="w-prop-value">Annual Report 2024</div>
-          </div>
-          <div class="w-prop">
-            <div class="w-prop-label">Author</div>
-            <div class="w-prop-value">Andrei P.</div>
-          </div>
-          <div class="w-prop">
-            <div class="w-prop-label">Pages</div>
-            <div class="w-prop-value">48</div>
-          </div>
-          <div class="w-prop">
-            <div class="w-prop-label">File Size</div>
-            <div class="w-prop-value teal">4.2 MB</div>
-          </div>
-          <div class="w-prop">
-            <div class="w-prop-label">Modified</div>
-            <div class="w-prop-value">Today, 09:14</div>
-          </div>
-
-          <div class="w-inspector-divider"></div>
-
-          <div class="w-prop">
-            <div class="w-prop-label">Metadata</div>
-            <div class="w-tag">Title OK</div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Status bar -->
-      <div class="w-statusbar">
-        <span>12 files</span>
-        <span>·</span>
-        <span class="teal">1 selected</span>
-        <span>·</span>
-        <span>Total 42.3 MB</span>
-      </div>
-
+    <div class="app-window app-window--screenshot">
+      <img src="assets/screenshots/library-view.png" alt="PDFloki library — files organised with metadata health indicators" />
     </div>
     </div><!-- /slider-slide 1 -->
 
-    <!-- Slide 2: Metadata Editor view -->
+    <!-- Slide 2: Title Manager -->
     <div class="slider-slide">
-    <div class="app-window">
-      <div class="w-titlebar">
-        <div class="traffic-lights">
-          <span class="tl tl-close"></span>
-          <span class="tl tl-min"></span>
-          <span class="tl tl-max"></span>
-        </div>
-        <span class="w-title">PDFloki — Metadata Editor</span>
-        <div class="w-titlebar-right">
-          <div class="w-view-btn list"><span></span><span></span><span></span></div>
-          <div class="w-search-pill"><span class="w-search-icon"></span><span class="w-search-line"></span></div>
-        </div>
-      </div>
-      <div class="w-body">
-        <div class="w-sidebar">
-          <div class="w-sidebar-label">Folders</div>
-          <div class="w-nav-item"><span class="w-nav-dot"></span>Documents<span class="w-nav-count">12</span></div>
-          <div class="w-nav-item active"><span class="w-nav-dot"></span>Invoices<span class="w-nav-count">34</span></div>
-          <div class="w-nav-item"><span class="w-nav-dot"></span>Research<span class="w-nav-count">8</span></div>
-          <div class="w-nav-item"><span class="w-nav-dot"></span>Archive<span class="w-nav-count">91</span></div>
-          <div class="w-sidebar-divider"></div>
-          <div class="w-sidebar-label">Quick Access</div>
-          <div class="w-nav-item"><span class="w-nav-dot"></span>Favourites</div>
-          <div class="w-nav-item"><span class="w-nav-dot"></span>Recent</div>
-        </div>
-        <div class="w-main">
-          <div class="w-filterbar">
-            <div class="w-search">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <span class="w-search-text"></span>
-            </div>
-            <div class="w-chips">
-              <span class="w-chip">All</span>
-              <span class="w-chip active">Favourites</span>
-              <span class="w-chip-div"></span>
-              <span class="w-chip" style="color:#30d158;border-color:rgba(48,209,88,0.25);background:rgba(48,209,88,0.08)">Title OK</span>
-              <span class="w-chip orange">Mismatched</span>
-            </div>
-          </div>
-          <div class="w-file-list">
-            <div class="w-row selected">
-              <span class="w-status warn"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Invoice_Jan_2025.pdf</span><span class="w-row-meta">92 KB · 1 pg</span></div>
-              <span class="w-row-date">Jan 15</span>
-            </div>
-            <div class="w-row selected">
-              <span class="w-status warn"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Invoice_Feb_2025.pdf</span><span class="w-row-meta">104 KB · 2 pg</span></div>
-              <span class="w-row-date">Feb 12</span>
-            </div>
-            <div class="w-row selected">
-              <span class="w-status warn"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Invoice_Mar_2025.pdf</span><span class="w-row-meta">88 KB · 1 pg</span></div>
-              <span class="w-row-date">Mar 18</span>
-            </div>
-            <div class="w-row">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Invoice_Apr_2025.pdf</span><span class="w-row-meta">112 KB · 2 pg · Acme Corp</span></div>
-              <span class="w-row-date">Apr 01</span>
-            </div>
-            <div class="w-row">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Invoice_May_2025.pdf</span><span class="w-row-meta">96 KB · 1 pg · Acme Corp</span></div>
-              <span class="w-row-date">May 05</span>
-            </div>
-            <div class="w-row">
-              <span class="w-status muted"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Receipt_Parking.pdf</span><span class="w-row-meta">48 KB · 1 pg</span></div>
-              <span class="w-row-date">May 20</span>
-            </div>
-          </div>
-        </div>
-        <div class="w-inspector">
-          <div class="w-inspector-title">Batch Edit — 3 files</div>
-          <div class="w-prop"><div class="w-prop-label">Set Author</div><div class="w-prop-value teal">Acme Corp</div></div>
-          <div class="w-prop"><div class="w-prop-label">Set Subject</div><div class="w-prop-value teal">Invoice</div></div>
-          <div class="w-prop"><div class="w-prop-label">Keywords</div><div class="w-prop-value">finance, 2025</div></div>
-          <div class="w-inspector-divider"></div>
-          <div class="w-prop"><div class="w-prop-label">Status</div><div class="w-tag" style="background:rgba(232,118,58,0.1);border-color:rgba(232,118,58,0.2);color:#e8763a">3 Missing Author</div></div>
-        </div>
-      </div>
-      <div class="w-statusbar">
-        <span>34 files</span><span>·</span><span class="teal">3 selected</span><span>·</span><span>Batch edit ready</span>
-      </div>
+    <div class="app-window app-window--screenshot">
+      <img src="assets/screenshots/title-manager.png" alt="PDFloki Title Manager — batch fix missing PDF titles in one click" />
     </div>
     </div>
 
-    <!-- Slide 3: Compress view -->
+    <!-- Slide 3: Compression sheet -->
     <div class="slider-slide">
-    <div class="app-window">
-      <div class="w-titlebar">
-        <div class="traffic-lights">
-          <span class="tl tl-close"></span>
-          <span class="tl tl-min"></span>
-          <span class="tl tl-max"></span>
-        </div>
-        <span class="w-title">PDFloki — Compress</span>
-        <div class="w-titlebar-right">
-          <div class="w-view-btn list"><span></span><span></span><span></span></div>
-          <div class="w-search-pill"><span class="w-search-icon"></span><span class="w-search-line"></span></div>
-        </div>
-      </div>
-      <div class="w-body">
-        <div class="w-sidebar">
-          <div class="w-sidebar-label">Folders</div>
-          <div class="w-nav-item"><span class="w-nav-dot"></span>Documents<span class="w-nav-count">12</span></div>
-          <div class="w-nav-item"><span class="w-nav-dot"></span>Invoices<span class="w-nav-count">34</span></div>
-          <div class="w-nav-item active"><span class="w-nav-dot"></span>Research<span class="w-nav-count">8</span></div>
-          <div class="w-nav-item"><span class="w-nav-dot"></span>Archive<span class="w-nav-count">91</span></div>
-          <div class="w-sidebar-divider"></div>
-          <div class="w-sidebar-label">Quick Access</div>
-          <div class="w-nav-item"><span class="w-nav-dot"></span>Favourites</div>
-          <div class="w-nav-item"><span class="w-nav-dot"></span>Recent</div>
-        </div>
-        <div class="w-main">
-          <div class="w-filterbar">
-            <div class="w-search">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <span class="w-search-text"></span>
-            </div>
-            <div class="w-chips">
-              <span class="w-chip active">All</span>
-              <span class="w-chip">Favourites</span>
-              <span class="w-chip-div"></span>
-              <span class="w-chip" style="color:#30d158;border-color:rgba(48,209,88,0.25);background:rgba(48,209,88,0.08)">Title OK</span>
-            </div>
-          </div>
-          <div class="w-file-list">
-            <div class="w-row selected">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Thesis_Final_Draft.pdf</span><span class="w-row-meta">28.4 MB · 186 pg · Dr. Kim</span></div>
-              <span class="w-row-date">Today</span>
-            </div>
-            <div class="w-row selected">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Survey_Results_2025.pdf</span><span class="w-row-meta">14.2 MB · 94 pg</span></div>
-              <span class="w-row-date">Mar 20</span>
-            </div>
-            <div class="w-row selected">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Lab_Report_Q1.pdf</span><span class="w-row-meta">9.6 MB · 42 pg · Lab Team</span></div>
-              <span class="w-row-date">Mar 08</span>
-            </div>
-            <div class="w-row">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Literature_Review.pdf</span><span class="w-row-meta">3.1 MB · 28 pg</span></div>
-              <span class="w-row-date">Feb 22</span>
-            </div>
-            <div class="w-row">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Conference_Slides.pdf</span><span class="w-row-meta">18.7 MB · 64 pg</span></div>
-              <span class="w-row-date">Feb 10</span>
-            </div>
-            <div class="w-row">
-              <span class="w-status ok"></span>
-              <span class="w-doc-icon"></span>
-              <div class="w-row-info"><span class="w-row-name">Data_Appendix.pdf</span><span class="w-row-meta">6.3 MB · 120 pg</span></div>
-              <span class="w-row-date">Jan 18</span>
-            </div>
-          </div>
-        </div>
-        <div class="w-inspector">
-          <div class="w-inspector-title">Compress — 3 files</div>
-          <div class="w-prop"><div class="w-prop-label">Preset</div><div class="w-prop-value teal">Standard (Level 3)</div></div>
-          <div class="w-prop"><div class="w-prop-label">Original Size</div><div class="w-prop-value">52.2 MB</div></div>
-          <div class="w-prop"><div class="w-prop-label">Estimated</div><div class="w-prop-value teal">~18.3 MB</div></div>
-          <div class="w-inspector-divider"></div>
-          <div class="w-prop"><div class="w-prop-label">Savings</div><div class="w-tag" style="background:rgba(48,209,88,0.1);border-color:rgba(48,209,88,0.2);color:#30d158">↓ 65% smaller</div></div>
-        </div>
-      </div>
-      <div class="w-statusbar">
-        <span>8 files</span><span>·</span><span class="teal">3 selected</span><span>·</span><span>52.2 MB → ~18.3 MB</span>
-      </div>
+    <div class="app-window app-window--screenshot">
+      <img src="assets/screenshots/compress-sheet.png" alt="PDFloki compression settings — choose quality preset before compressing" />
     </div>
     </div>
 
@@ -2545,9 +2214,9 @@
     </div>
 
     <div class="slider-dots">
-      <button class="slider-dot active" aria-label="Slide 1"></button>
-      <button class="slider-dot" aria-label="Slide 2"></button>
-      <button class="slider-dot" aria-label="Slide 3"></button>
+      <button class="slider-dot active" aria-label="Library view"></button>
+      <button class="slider-dot" aria-label="Title Manager"></button>
+      <button class="slider-dot" aria-label="Compression settings"></button>
     </div>
 
     </div><!-- /slider -->
@@ -2763,6 +2432,14 @@
       <p class="section-label">PDFium-powered compression</p>
       <h2>Six presets. Real-world savings.</h2>
       <p class="section-sub">A multi-pass pipeline — font subsetting, qpdf stream optimization, and PDFium image recompression — tuned across six presets so you pick quality vs size, not guess.</p>
+    </div>
+
+    <div class="compression-proof">
+      <img
+        src="assets/screenshots/compress-results.png"
+        alt="PDFloki batch compression results — 73.1% average reduction, 32.4 MB saved across 6 files"
+      />
+      <p class="compression-proof-caption">6 files · 73.1% average reduction · 32.4 MB saved</p>
     </div>
 
     <div class="compress-grid">
