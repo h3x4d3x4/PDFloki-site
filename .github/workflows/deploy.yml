@@ -19,7 +19,7 @@ jobs:
           port: ${{ secrets.DEPLOY_PORT }}
           script: |
             set -e
-            cd /mnt/hexapool/docker/compose/pdfloki
+            cd /home/andrei/pdfloki
             git pull origin main
             # Ensure releases volume directory exists
             mkdir -p releases-data
