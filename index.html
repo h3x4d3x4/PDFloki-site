@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDFloki — PDF Management for macOS &amp; iPad</title>
-  <meta name="description" content="A native macOS and iPadOS app to organise, inspect, and process your PDF files. 46+ tools. 100% local. No subscription." />
+  <title>PDFloki — PDF Management for macOS</title>
+  <meta name="description" content="A native macOS app to organise, inspect, and process your PDF files. 46+ tools. 100% local. No subscription. iPad coming soon." />
 
   <link rel="icon" type="image/png" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
 
-  <meta property="og:title" content="PDFloki — PDF Management for macOS &amp; iPad" />
-  <meta property="og:description" content="Native macOS and iPadOS app to organise, inspect, and batch-process your PDFs. 46+ tools, 100% local, no subscription." />
+  <meta property="og:title" content="PDFloki — PDF Management for macOS" />
+  <meta property="og:description" content="Native macOS app to organise, inspect, and batch-process your PDFs. 46+ tools, 100% local, no subscription. iPad coming soon." />
   <meta property="og:image" content="icon.png" />
   <meta property="og:type" content="website" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="PDFloki — PDF Management for macOS &amp; iPad" />
-  <meta name="twitter:description" content="Native macOS and iPadOS app to organise, inspect, and batch-process your PDFs. 46+ tools, 100% local, no subscription." />
+  <meta name="twitter:title" content="PDFloki — PDF Management for macOS" />
+  <meta name="twitter:description" content="Native macOS app to organise, inspect, and batch-process your PDFs. 46+ tools, 100% local, no subscription. iPad coming soon." />
   <meta name="twitter:image" content="icon.png" />
 
   <meta name="theme-color" content="#f5f2ed" />
@@ -26,10 +26,10 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "PDFloki",
-    "softwareVersion": "1.1.0",
-    "operatingSystem": "macOS 14+, iPadOS 17+",
+    "softwareVersion": "1.1.3",
+    "operatingSystem": "macOS 14+",
     "applicationCategory": "ProductivityApplication",
-    "description": "A native macOS and iPadOS app to organise, inspect, and process your PDF files.",
+    "description": "A native macOS app to organise, inspect, and process your PDF files. iPad coming soon.",
     "offers": { "@type": "Offer", "priceCurrency": "USD" },
     "author": { "@type": "Person", "name": "Andrei", "url": "https://hexadexa.io" }
   }
@@ -1133,6 +1133,51 @@
       letter-spacing: 0.02em;
     }
 
+    /* ─── SCREENSHOT GALLERY ─── */
+    .gallery-section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 2.5rem;
+    }
+    .gallery-item { display: flex; flex-direction: column; gap: 0.7rem; }
+    .gallery-item img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      border-radius: 14px;
+      box-shadow: 0 0 0 1px var(--border-card), 0 8px 28px rgba(0,0,0,0.10);
+      display: block;
+    }
+    .gallery-caption {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 0.01em;
+      text-align: center;
+    }
+    /* Placeholder styling: a clean dashed box shows even when the image file
+       is missing, so the owner can drop in real screenshots later. */
+    .gallery-item img.placeholder {
+      min-height: 200px;
+      aspect-ratio: 16 / 10;
+      border: 2px dashed var(--border);
+      background:
+        repeating-linear-gradient(
+          45deg,
+          var(--orange-soft),
+          var(--orange-soft) 12px,
+          transparent 12px,
+          transparent 24px
+        ),
+        var(--bg-card);
+      box-shadow: none;
+    }
+
     /* ─── COMPRESS SPOTLIGHT ─── */
     .compress-spotlight {
       max-width: 1080px;
@@ -2112,7 +2157,9 @@
       <a class="nav-link" href="#compression">Compression</a>
       <a class="nav-link" href="#faq">FAQ</a>
       <a class="nav-link" href="privacy.html">Privacy</a>
-      <a class="nav-btn" href="https://pdfloki.app/releases/PDFloki-1.1.0.dmg">Download</a>
+      <a class="nav-link" href="terms.html">Terms</a>
+      <!-- Download links point to /download, which nginx 302-redirects to the current DMG. To ship a new version, update the nginx redirect + the version labels below; these hrefs never change. -->
+      <a class="nav-btn" href="https://pdfloki.app/download">Download</a>
     </div>
   </nav>
 
@@ -2133,14 +2180,14 @@
     <div class="hero-content">
       <div class="hero-badge">
         <span class="version-dot" aria-hidden="true"></span>
-        v1.1.0 — New
+        v1.1.3 — New
       </div>
 
       <h1>PDFloki.<br>Tame your PDFs.<br><em>For good.</em></h1>
-      <p>A native macOS and iPad app to organise, inspect, and batch-process your entire PDF library — no cloud, no bloat, no subscription.</p>
+      <p>A native macOS app to organise, inspect, and batch-process your entire PDF library. Core tools are <strong>free forever</strong>; unlock the Pro power tools with a one-time purchase — no cloud, no bloat, no subscription.</p>
 
       <div class="hero-actions">
-        <a class="btn-primary" href="https://pdfloki.app/releases/PDFloki-1.1.0.dmg">
+        <a class="btn-primary" href="https://pdfloki.app/download">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <polyline points="7 10 12 15 17 10"/>
@@ -2153,7 +2200,7 @@
           <span class="dot">·</span>
           Apple Silicon &amp; Intel
         </p>
-        <p class="hero-platforms">Also available on iPad <span class="dot">·</span> macOS 14+ / iPadOS 17+</p>
+        <p class="hero-platforms">iPad version coming soon <span class="dot">·</span> macOS 14+</p>
       </div>
 
       <div class="hero-stats">
@@ -2238,7 +2285,7 @@
           </svg>
         </div>
         <h3>Point to a folder</h3>
-        <p>Open any folder on your Mac or iPad. PDFloki scans and indexes every PDF instantly.</p>
+        <p>Open any folder on your Mac. PDFloki scans and indexes every PDF instantly.</p>
       </div>
       <div class="step">
         <div class="step-number">
@@ -2426,6 +2473,37 @@
     </div>
   </section>
 
+  <!-- ── SCREENSHOT GALLERY ── -->
+  <section class="gallery-section fade-in" id="gallery">
+    <div class="section-header">
+      <p class="section-label">See it in action</p>
+      <h2>A look inside PDFloki.</h2>
+      <p class="section-sub">Real screenshots from the app. (More coming as we capture them.)</p>
+    </div>
+
+    <div class="gallery-grid">
+
+      <!-- SCREENSHOT PLACEHOLDER: OCR sheet running on-device Apple Vision OCR across a multi-page document, showing per-page progress -->
+      <div class="gallery-item">
+        <img class="placeholder" src="assets/screenshots/ocr.png" alt="PDFloki OCR — on-device Apple Vision text recognition with live per-page progress" />
+        <p class="gallery-caption">Screenshot: OCR in action</p>
+      </div>
+
+      <!-- SCREENSHOT PLACEHOLDER: Merge / Page Manager view showing multiple PDFs being combined and reordered into a single document -->
+      <div class="gallery-item">
+        <img class="placeholder" src="assets/screenshots/merge.png" alt="PDFloki Page Manager — merge, reorder, and split PDF pages" />
+        <p class="gallery-caption">Screenshot: Merge &amp; Page Manager</p>
+      </div>
+
+      <!-- SCREENSHOT PLACEHOLDER: Batch metadata / title editor applying changes across many files at once -->
+      <div class="gallery-item">
+        <img class="placeholder" src="assets/screenshots/batch-editor.png" alt="PDFloki batch metadata editor — edit titles and metadata across many files at once" />
+        <p class="gallery-caption">Screenshot: Batch metadata editor</p>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ── COMPRESSION SPOTLIGHT ── -->
   <section class="compress-spotlight fade-in" id="compression">
     <div class="section-header">
@@ -2548,9 +2626,9 @@
   <section class="ipad-section fade-in" id="ipad">
     <div class="ipad-inner">
       <div class="ipad-copy">
-        <p class="section-label">Cross-device</p>
-        <h2>Now on iPad.</h2>
-        <p>PDFloki runs natively on iPadOS 17 and later. The same library, the same tools, rebuilt for touch. Drag pages with your finger, sign with Apple Pencil, and pick up where you left off on your Mac.</p>
+        <p class="section-label">Coming soon</p>
+        <h2>iPad version on the way.</h2>
+        <p>A native iPad build is in the works — the same library and tools, rebuilt for touch. Drag pages with your finger, sign with Apple Pencil, and pick up where you left off on your Mac. The Mac app is available today; iPad lands in a later release.</p>
         <ul class="ipad-bullets">
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -2599,7 +2677,7 @@
     <div class="requirements-inner">
       <div class="req-item">
         <p class="req-label">Platform</p>
-        <p class="req-value">&#63743; macOS 14+ · iPad &amp; Mac</p>
+        <p class="req-value">&#63743; macOS 14+ · iPad coming soon</p>
       </div>
       <div class="req-item">
         <p class="req-label">Architecture</p>
@@ -2615,45 +2693,45 @@
   <!-- ── PRICING / TRIAL ── -->
   <section class="pricing-section fade-in" id="pricing">
     <div class="pricing-card">
-      <h2>Try free for 7 days.</h2>
-      <p class="pricing-sub">Full access to every feature during your trial. No credit card required. Buy once, own it forever — no subscription.</p>
+      <h2>Free to start. Pro when you need it.</h2>
+      <p class="pricing-sub">The everyday core — title &amp; metadata management, merge and split — is <strong>free forever</strong>. A one-time purchase unlocks every Pro power tool. No subscription, no account, no credit card to try.</p>
 
       <ul class="pricing-check-list">
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          All 46+ tools unlocked
+          Core title, metadata, merge &amp; split — free forever
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          No subscription, ever
+          7-day full trial of every Pro tool
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          Free auto-updates included
+          One-time purchase — no subscription, ever
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          No account required
+          Free auto-updates · no account required
         </li>
       </ul>
 
-      <a class="btn-primary" href="https://pdfloki.app/releases/PDFloki-1.1.0.dmg">
+      <a class="btn-primary" href="https://pdfloki.app/download">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="7 10 12 15 17 10"/>
           <line x1="12" y1="15" x2="12" y2="3"/>
         </svg>
-        Download Free Trial
+        Download Free
       </a>
 
       <p class="pricing-fine">
         macOS 14+
         <span class="dot">·</span>
-        iPadOS 17+
-        <span class="dot">·</span>
         Apple Silicon &amp; Intel
         <span class="dot">·</span>
-        v1.1.0
+        iPad coming soon
+        <span class="dot">·</span>
+        v1.1.3
       </p>
     </div>
   </section>
@@ -2663,7 +2741,7 @@
   <section class="cta">
     <h2>Ready to tame<br>your PDFs?</h2>
     <p>Your PDFs. Your Mac. Nothing leaves.<br>Pay once, own it forever.</p>
-    <a class="btn-primary" href="https://pdfloki.app/releases/PDFloki-1.1.0.dmg">
+    <a class="btn-primary" href="https://pdfloki.app/download">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
@@ -2695,17 +2773,17 @@
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </summary>
         <div class="faq-body">
-          No. All PDF processing happens locally on your Mac or iPad using Apple's native frameworks. File contents, metadata, and usage data <strong>never leave your device</strong>. The only outbound requests are optional Sparkle update checks and one-time license activation.
+          No. All PDF processing happens locally on your Mac using Apple's native frameworks. File contents, metadata, and usage data <strong>never leave your device</strong>. The only outbound requests are optional Sparkle update checks and one-time license activation.
         </div>
       </details>
 
       <details class="faq-item">
         <summary>
-          <span>Does it work on Apple Silicon? And iPad?</span>
+          <span>Does it work on Apple Silicon? What about iPad?</span>
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </summary>
         <div class="faq-body">
-          Yes to both. PDFloki ships as a <strong>universal binary</strong> — fully native on Apple Silicon (M1 and later) and Intel Macs, plus a native iPadOS 17+ build designed for touch.
+          The Mac app ships as a <strong>universal binary</strong> — fully native on Apple Silicon (M1 and later) and Intel Macs. A native <strong>iPad version is coming soon</strong> in a later release.
         </div>
       </details>
 
@@ -2731,11 +2809,21 @@
 
       <details class="faq-item">
         <summary>
+          <span>What's free, and what's Pro?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-body">
+          The <strong>core PDF library tools are free forever</strong>: title &amp; metadata management (quick fix, batch edit, find &amp; replace, date correction, folder presets, templates) plus <strong>merge</strong> and <strong>split</strong>. <strong>Pro</strong> unlocks the power tools — compression, OCR, redaction, watermarks &amp; stamps, passwords, signatures, form filling, conversion, exports, and advanced analysis.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
           <span>What happens after the 7-day trial?</span>
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </summary>
         <div class="faq-body">
-          After the trial, a subset of tools remains free. A <strong>one-time purchase</strong> unlocks every feature permanently — no recurring fees, no seat counts, no surprises.
+          The free core tools keep working forever. The Pro tools stay available for a few free uses after the trial, and a <strong>one-time purchase</strong> unlocks them all permanently — no recurring fees, no seat counts, no surprises.
         </div>
       </details>
 
@@ -2750,23 +2838,24 @@
           <img src="icon.png" alt="PDFloki" />
           <span>PDFloki</span>
         </div>
-        <p class="footer-tagline">Native PDF management for macOS and iPad.<br>Built by <a href="https://hexadexa.io">Hexadexa</a>.</p>
+        <p class="footer-tagline">Native PDF management for macOS · iPad coming soon.<br>Built by <a href="https://hexadexa.io">Hexadexa</a>.</p>
       </div>
       <div class="footer-col">
         <p class="footer-col-title">Product</p>
-        <a href="https://pdfloki.app/releases/PDFloki-1.1.0.dmg">Download</a>
+        <a href="https://pdfloki.app/download">Download</a>
         <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
       </div>
       <div class="footer-col">
         <p class="footer-col-title">Highlights</p>
         <span>46+ PDF tools</span>
         <span>100% offline</span>
         <span>Apple Silicon native</span>
-        <span>iPadOS 17+ ready</span>
+        <span>iPad coming soon</span>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 PDFloki · v1.1.0 · Made with ♥ for Floki.</p>
+      <p>© 2026 PDFloki · v1.1.3 · Made with ♥ for Floki.</p>
       <p>Built with <a href="https://developer.apple.com/xcode/swiftui/">SwiftUI</a></p>
     </div>
   </footer>
