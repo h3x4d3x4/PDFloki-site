@@ -20,7 +20,11 @@ jobs:
           script: |
             set -e
             cd /home/andrei/pdfloki
-            git pull origin main
+            # Force the checkout to match the repo exactly. Using reset --hard
+            # (not pull) avoids aborting when the server has stray local edits to
+            # tracked files; untracked files (e.g. scp'd appcast.xml) are left alone.
+            git fetch origin main
+            git reset --hard origin/main
             # Ensure releases volume directory exists
             mkdir -p releases-data
             docker compose up -d --build
