@@ -6,16 +6,26 @@
     <description>PDFloki updates</description>
     <language>en</language>
     <item>
-      <title>Version 1.2.1</title>
-      <pubDate>Mon, 15 Jun 2026 15:43:38 +0000</pubDate>
-      <sparkle:version>1781538018</sparkle:version>
-      <sparkle:shortVersionString>1.2.1</sparkle:shortVersionString>
+      <title>Version 1.2.2</title>
+      <description><![CDATA[<p><b>Changed</b></p>
+&bull; Onboarding tour is shorter and snappier — five focused steps instead of ten.<br/>
+<p><b>Fixed</b></p>
+&bull; OCR language picker no longer defaults to Chinese — the common languages (English, French, German, …) now appear correctly, with English selected by default.<br/>
+&bull; OCR no longer creates duplicate `_ocr.pdf` files for PDFs that already contain selectable text; it tells you they're already searchable instead.<br/>
+&bull; Toolbar Compress / OCR / Title Manager buttons always show a tooltip and now guide you with a hint when nothing is selected, instead of silently greying out.<br/>
+&bull; Tabs and the tab close button now have tooltips.<br/>
+&bull; Settings → License now clearly distinguishes Free trial (with days left), a paid License, and the always-free core tier.<br/>
+<p><b>Added</b></p>
+&bull; The in-app updater now shows release notes for each update.<br/>]]></description>
+      <pubDate>Mon, 15 Jun 2026 16:10:10 +0000</pubDate>
+      <sparkle:version>1781539613</sparkle:version>
+      <sparkle:shortVersionString>1.2.2</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/h3x4d3x4/pdfloki-releases/releases/download/v1.2.1/PDFloki-1.2.1.dmg"
-        length="23825551"
+        url="https://github.com/h3x4d3x4/pdfloki-releases/releases/download/v1.2.2/PDFloki-1.2.2.dmg"
+        length="23845957"
         type="application/octet-stream"
-        sparkle:edSignature="uvXRvbTornly8Ny/4S+neZDyYCKHpT+n0Xe/jQti5gJe7FaYcthM38jyOVIzPoYw12tXaepz82AUpY1EYmsqCQ==" />
+        sparkle:edSignature="IqXNKue6U3OvDHvXT+uM5A1SIyzYnM+QGvwzUQHtzUN8lNT3kTN6eoKel8euO35Hpgb2FPEF3YEYu1ywpswJAw==" />
     </item>
   </channel>
 </rss>
