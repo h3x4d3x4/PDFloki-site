@@ -456,6 +456,7 @@
       width: 100%;
       display: block;
       border-radius: 14px;
+      cursor: zoom-in;
       box-shadow:
         0 0 0 1px rgba(0,0,0,0.18),
         0 8px 32px rgba(0,0,0,0.18),
@@ -1120,12 +1121,60 @@
       width: 100%;
       height: auto;
       border-radius: 14px;
+      cursor: zoom-in;
       box-shadow:
         0 0 0 1px rgba(0,0,0,0.22),
         0 8px 40px rgba(0,0,0,0.45),
         0 24px 80px rgba(0,0,0,0.3);
       display: block;
     }
+
+    /* ─── LIGHTBOX ─── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4vmin;
+      background: rgba(20, 18, 15, 0.86);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+      cursor: zoom-out;
+    }
+    .lightbox.open { opacity: 1; visibility: visible; }
+    .lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 12px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      transform: scale(0.97);
+      transition: transform 0.22s ease;
+    }
+    .lightbox.open img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute;
+      top: max(16px, 3vmin);
+      right: max(16px, 3vmin);
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.24); }
     .compression-proof-caption {
       margin-top: 0.75rem;
       font-size: 0.82rem;
@@ -1151,8 +1200,16 @@
       aspect-ratio: 16 / 10;
       object-fit: cover;
       border-radius: 14px;
+      cursor: zoom-in;
       box-shadow: 0 0 0 1px var(--border-card), 0 8px 28px rgba(0,0,0,0.10);
       display: block;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    @media (hover: hover) {
+      .gallery-item img:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 0 1px var(--border-card), 0 14px 36px rgba(0,0,0,0.16);
+      }
     }
     .gallery-caption {
       font-size: 0.85rem;
@@ -2227,28 +2284,28 @@
     <!-- Slide 1: Library view -->
     <div class="slider-slide">
     <div class="app-window app-window--screenshot">
-      <img src="assets/screenshots/library-view.png" alt="PDFloki library — files organised in a grid with rich thumbnails" />
+      <img src="assets/screenshots/library-view.webp" data-full="assets/screenshots/library-view-full.webp" class="zoomable" alt="PDFloki library — browse, search and inspect your PDFs with metadata at a glance" />
     </div>
     </div><!-- /slider-slide 1 -->
 
     <!-- Slide 2: OCR -->
     <div class="slider-slide">
     <div class="app-window app-window--screenshot">
-      <img src="assets/screenshots/ocr.png" alt="PDFloki OCR — make scanned PDFs searchable with on-device recognition" />
+      <img src="assets/screenshots/ocr.webp" data-full="assets/screenshots/ocr-full.webp" class="zoomable" alt="PDFloki OCR — make scanned PDFs searchable with on-device recognition" />
     </div>
     </div>
 
     <!-- Slide 3: Merge -->
     <div class="slider-slide">
     <div class="app-window app-window--screenshot">
-      <img src="assets/screenshots/merge.png" alt="PDFloki Merge — combine multiple PDFs and reorder before merging" />
+      <img src="assets/screenshots/merge.webp" data-full="assets/screenshots/merge-full.webp" class="zoomable" alt="PDFloki Merge — combine multiple PDFs and reorder before merging" />
     </div>
     </div>
 
     <!-- Slide 4: Title Manager -->
     <div class="slider-slide">
     <div class="app-window app-window--screenshot">
-      <img src="assets/screenshots/title-manager.png" alt="PDFloki Title Manager — batch fix missing PDF titles in one click" />
+      <img src="assets/screenshots/title-manager.webp" data-full="assets/screenshots/title-manager-full.webp" class="zoomable" alt="PDFloki Title Manager — batch fix missing PDF titles in one click" />
     </div>
     </div>
 
@@ -2490,19 +2547,23 @@
     </div>
     <div class="gallery-grid">
       <div class="gallery-item">
-        <img src="assets/screenshots/quality-compare.gif" alt="PDFloki quality comparison — drag the slider to compare original vs compressed" loading="lazy" />
-        <p class="gallery-caption">Compare quality before & after compression</p>
+        <img src="assets/screenshots/quality-compare.webp" data-full="assets/screenshots/quality-compare.webp" class="zoomable" alt="PDFloki quality comparison — drag the slider to compare original vs compressed" loading="lazy" />
+        <p class="gallery-caption">Compare quality before &amp; after compression</p>
       </div>
       <div class="gallery-item">
-        <img src="assets/screenshots/batch-editor.png" alt="PDFloki batch metadata editor — edit title, author, and more across many files at once" loading="lazy" />
+        <img src="assets/screenshots/library-grid.webp" data-full="assets/screenshots/library-grid-full.webp" class="zoomable" alt="PDFloki library grid — browse PDFs visually with rich page thumbnails" loading="lazy" />
+        <p class="gallery-caption">Browse your library visually in a grid</p>
+      </div>
+      <div class="gallery-item">
+        <img src="assets/screenshots/batch-editor.webp" data-full="assets/screenshots/batch-editor-full.webp" class="zoomable" alt="PDFloki batch metadata editor — edit title, author, and more across many files at once" loading="lazy" />
         <p class="gallery-caption">Batch-edit metadata across dozens of files</p>
       </div>
       <div class="gallery-item">
-        <img src="assets/screenshots/convert.png" alt="PDFloki convert — turn images and documents into PDFs" loading="lazy" />
-        <p class="gallery-caption">Convert images & documents to PDF</p>
+        <img src="assets/screenshots/convert.webp" data-full="assets/screenshots/convert-full.webp" class="zoomable" alt="PDFloki convert — turn images and documents into PDFs" loading="lazy" />
+        <p class="gallery-caption">Convert images &amp; documents to PDF</p>
       </div>
       <div class="gallery-item">
-        <img src="assets/screenshots/hero.png" alt="PDFloki welcome screen — tame your PDF library" loading="lazy" />
+        <img src="assets/screenshots/hero.webp" data-full="assets/screenshots/hero-full.webp" class="zoomable" alt="PDFloki welcome screen — tame your PDF library" loading="lazy" />
         <p class="gallery-caption">A calm home for your whole PDF library</p>
       </div>
     </div>
@@ -2518,7 +2579,9 @@
 
     <div class="compression-proof">
       <img
-        src="assets/screenshots/compress-results.png"
+        src="assets/screenshots/compress-results.webp"
+        data-full="assets/screenshots/compress-results-full.webp"
+        class="zoomable"
         alt="PDFloki batch compression results — 76.6% reduction, 28.1 MB saved across 6 files"
       />
       <p class="compression-proof-caption">6 files · 76.6% smaller · 28.1 MB saved</p>
@@ -2871,6 +2934,12 @@
     </svg>
   </button>
 
+  <!-- ── LIGHTBOX ── -->
+  <div class="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer">
+    <button class="lightbox-close" type="button" aria-label="Close">&times;</button>
+    <img src="" alt="" />
+  </div>
+
   <script>
     // Scroll-triggered fade-in
     const observer = new IntersectionObserver((entries) => {
@@ -2884,40 +2953,81 @@
       nav.classList.toggle('scrolled', window.scrollY > 8);
     }, { passive: true });
 
-    // Screenshot slider
+    // Screenshot slider (auto-advancing, wraps, pauses on hover/touch)
     (function() {
       const track = document.querySelector('.slider-track');
+      if (!track) return;
       const slides = track.querySelectorAll('.slider-slide');
       const prev = document.querySelector('.slider-prev');
       const next = document.querySelector('.slider-next');
       const dots = document.querySelectorAll('.slider-dot');
-      let current = 0;
+      const wrap = track.closest('.slider') || track;
+      const AUTO = 5000;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let current = 0, timer = null;
 
-      function goTo(i) {
-        current = Math.max(0, Math.min(i, slides.length - 1));
+      function render() {
         slides.forEach(s => s.style.transform = `translateX(-${current * 100}%)`);
-        prev.classList.toggle('disabled', current === 0);
-        next.classList.toggle('disabled', current === slides.length - 1);
+        prev.classList.remove('disabled');
+        next.classList.remove('disabled');
         dots.forEach((d, j) => d.classList.toggle('active', j === current));
       }
+      function goTo(i, user) {
+        current = (i + slides.length) % slides.length;
+        render();
+        if (user) restart();
+      }
+      function start() { if (!reduce && !timer) timer = setInterval(() => goTo(current + 1), AUTO); }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function restart() { stop(); start(); }
 
-      prev.addEventListener('click', () => goTo(current - 1));
-      next.addEventListener('click', () => goTo(current + 1));
-      dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+      prev.addEventListener('click', () => goTo(current - 1, true));
+      next.addEventListener('click', () => goTo(current + 1, true));
+      dots.forEach((d, i) => d.addEventListener('click', () => goTo(i, true)));
+
+      wrap.addEventListener('mouseenter', stop);
+      wrap.addEventListener('mouseleave', start);
 
       // Swipe support
       let startX = 0;
-      track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; stop(); }, { passive: true });
       track.addEventListener('touchend', e => {
         const diff = startX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
+        if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1), true);
+        else start();
       }, { passive: true });
 
-      // Keyboard arrows when slider is in view
+      // Keyboard arrows
       document.addEventListener('keydown', e => {
-        if (e.key === 'ArrowLeft') goTo(current - 1);
-        if (e.key === 'ArrowRight') goTo(current + 1);
+        if (e.key === 'ArrowLeft') goTo(current - 1, true);
+        if (e.key === 'ArrowRight') goTo(current + 1, true);
       });
+
+      render();
+      start();
+    })();
+
+    // Lightbox — click any .zoomable screenshot to view it full-size
+    (function() {
+      const lb = document.querySelector('.lightbox');
+      if (!lb) return;
+      const lbImg = lb.querySelector('img');
+      function open(el) {
+        lbImg.src = el.dataset.full || el.src;
+        lbImg.alt = el.alt || '';
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function close() {
+        lb.classList.remove('open');
+        document.body.style.overflow = '';
+        lbImg.src = '';
+      }
+      document.querySelectorAll('img.zoomable').forEach(el => {
+        el.addEventListener('click', () => open(el));
+      });
+      lb.addEventListener('click', close);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
     })();
 
     // Scroll to top
