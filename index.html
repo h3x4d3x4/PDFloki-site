@@ -2227,21 +2227,28 @@
     <!-- Slide 1: Library view -->
     <div class="slider-slide">
     <div class="app-window app-window--screenshot">
-      <img src="assets/screenshots/library-view.png" alt="PDFloki library — files organised with metadata health indicators" />
+      <img src="assets/screenshots/library-view.png" alt="PDFloki library — files organised in a grid with rich thumbnails" />
     </div>
     </div><!-- /slider-slide 1 -->
 
-    <!-- Slide 2: Title Manager -->
+    <!-- Slide 2: OCR -->
     <div class="slider-slide">
     <div class="app-window app-window--screenshot">
-      <img src="assets/screenshots/title-manager.png" alt="PDFloki Title Manager — batch fix missing PDF titles in one click" />
+      <img src="assets/screenshots/ocr.png" alt="PDFloki OCR — make scanned PDFs searchable with on-device recognition" />
     </div>
     </div>
 
-    <!-- Slide 3: Compression sheet -->
+    <!-- Slide 3: Merge -->
     <div class="slider-slide">
     <div class="app-window app-window--screenshot">
-      <img src="assets/screenshots/compress-sheet.png" alt="PDFloki compression settings — choose quality preset before compressing" />
+      <img src="assets/screenshots/merge.png" alt="PDFloki Merge — combine multiple PDFs and reorder before merging" />
+    </div>
+    </div>
+
+    <!-- Slide 4: Title Manager -->
+    <div class="slider-slide">
+    <div class="app-window app-window--screenshot">
+      <img src="assets/screenshots/title-manager.png" alt="PDFloki Title Manager — batch fix missing PDF titles in one click" />
     </div>
     </div>
 
@@ -2262,8 +2269,9 @@
 
     <div class="slider-dots">
       <button class="slider-dot active" aria-label="Library view"></button>
+      <button class="slider-dot" aria-label="OCR"></button>
+      <button class="slider-dot" aria-label="Merge"></button>
       <button class="slider-dot" aria-label="Title Manager"></button>
-      <button class="slider-dot" aria-label="Compression settings"></button>
     </div>
 
     </div><!-- /slider -->
@@ -2476,31 +2484,27 @@
   <!-- ── SCREENSHOT GALLERY ── -->
   <section class="gallery-section fade-in" id="gallery">
     <div class="section-header">
-      <p class="section-label">See it in action</p>
-      <h2>A look inside PDFloki.</h2>
-      <p class="section-sub">Real screenshots from the app. (More coming as we capture them.)</p>
+      <p class="section-label">A look inside</p>
+      <h2>Built for real PDF work</h2>
+      <p class="section-sub">Every tool, native and on-device — see the difference for yourself.</p>
     </div>
-
     <div class="gallery-grid">
-
-      <!-- SCREENSHOT PLACEHOLDER: OCR sheet running on-device Apple Vision OCR across a multi-page document, showing per-page progress -->
       <div class="gallery-item">
-        <img class="placeholder" src="assets/screenshots/ocr.png" alt="PDFloki OCR — on-device Apple Vision text recognition with live per-page progress" />
-        <p class="gallery-caption">Screenshot: OCR in action</p>
+        <img src="assets/screenshots/quality-compare.gif" alt="PDFloki quality comparison — drag the slider to compare original vs compressed" loading="lazy" />
+        <p class="gallery-caption">Compare quality before & after compression</p>
       </div>
-
-      <!-- SCREENSHOT PLACEHOLDER: Merge / Page Manager view showing multiple PDFs being combined and reordered into a single document -->
       <div class="gallery-item">
-        <img class="placeholder" src="assets/screenshots/merge.png" alt="PDFloki Page Manager — merge, reorder, and split PDF pages" />
-        <p class="gallery-caption">Screenshot: Merge &amp; Page Manager</p>
+        <img src="assets/screenshots/batch-editor.png" alt="PDFloki batch metadata editor — edit title, author, and more across many files at once" loading="lazy" />
+        <p class="gallery-caption">Batch-edit metadata across dozens of files</p>
       </div>
-
-      <!-- SCREENSHOT PLACEHOLDER: Batch metadata / title editor applying changes across many files at once -->
       <div class="gallery-item">
-        <img class="placeholder" src="assets/screenshots/batch-editor.png" alt="PDFloki batch metadata editor — edit titles and metadata across many files at once" />
-        <p class="gallery-caption">Screenshot: Batch metadata editor</p>
+        <img src="assets/screenshots/convert.png" alt="PDFloki convert — turn images and documents into PDFs" loading="lazy" />
+        <p class="gallery-caption">Convert images & documents to PDF</p>
       </div>
-
+      <div class="gallery-item">
+        <img src="assets/screenshots/hero.png" alt="PDFloki welcome screen — tame your PDF library" loading="lazy" />
+        <p class="gallery-caption">A calm home for your whole PDF library</p>
+      </div>
     </div>
   </section>
 
@@ -2515,9 +2519,9 @@
     <div class="compression-proof">
       <img
         src="assets/screenshots/compress-results.png"
-        alt="PDFloki batch compression results — 73.1% average reduction, 32.4 MB saved across 6 files"
+        alt="PDFloki batch compression results — 76.6% reduction, 28.1 MB saved across 6 files"
       />
-      <p class="compression-proof-caption">6 files · 73.1% average reduction · 32.4 MB saved</p>
+      <p class="compression-proof-caption">6 files · 76.6% smaller · 28.1 MB saved</p>
     </div>
 
     <div class="compress-grid">
